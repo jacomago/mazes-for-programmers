@@ -2,7 +2,7 @@ class Cell {
   constructor(row, column) {
     this.row = row;
     this.column = column;
-    this.links = {};
+    this.links = new Map();
   }
 
   link(cell, bidi = true) {
@@ -22,7 +22,10 @@ class Cell {
   }
 
   linked(cell) {
-    return this.links[cell];
+    if (this.links.has(cell)) {
+      return true;
+    }
+    return false;
   }
 
   neighbours() {
@@ -35,14 +38,58 @@ class Cell {
     return list;
   }
 
-  draw() {
-    let d = 90;
+  draw(cell_size) {
+    let d = cell_size;
     stroke(0);
-    line(this.row * d, this.column * d + d, this.row * d + d, this.column * d + d); // north
-    line(this.row * d, this.column * d, this.row * d + d, this.column * d); // south
-    line(this.row * d, this.column * d, this.row * d, this.column * d + d); // west
-    line(this.row * d + d, this.column * d, this.row * d + d, this.column * d + d); // east
 
+    let x1 = this.column * d;
+    let y1 = this.row * d;
+    let x2 = (this.column + 1) * d;
+    let y2 = (this.row + 1) * d;
+    if ((this.north != null)) line(x1, y1, x2, y1); // north
+    if ((this.west != null)) line(x1, y1, x1, y2); // west
+    if (!(this.linked(this.east))) line(x2, y1, x2, y2); // east
+    if (!(this.linked(this.south))) line(x1, y2, x2, y2); // south
+  }
+
+  linksString() {
+    let s = 'links: [';
+    if (this.linked(this.north)) {
+      s += 'north,';
+    }
+    if (this.linked(this.south)) {
+      s += 'south,';
+    }
+    if (this.linked(this.east)) {
+      s += 'east,';
+    }
+    if (this.linked(this.west)) {
+      s += 'west,';
+    }
+    s += ']';
+    return s;
+  }
+
+  neighboursString() {
+    let s = 'neighbours: [';
+    if (this.north != null) {
+      s += 'north,';
+    }
+    if (this.south != null) {
+      s += 'south,';
+    }
+    if (this.east != null) {
+      s += 'east,';
+    }
+    if (this.west != null) {
+      s += 'west,';
+    }
+    s += ']';
+    return s;
+  }
+
+  toString() {
+    return 'row: ' + this.row + ' col: ' + this.column + ' links: ' + this.linksString() + ' neighbours: ' + this.neighboursString();
   }
 }
 
@@ -60,8 +107,8 @@ class Grid {
   }
 
   get(row, col) {
-    if (!(this.rows > row && row > 0)) return undefined;
-    if (!(this.columns > col && col > 0)) return undefined;
+    if (!(this.rows > row && row >= 0)) return null;
+    if (!(this.columns > col && col >= 0)) return null;
     return this.grid[row][col];
   }
 
@@ -112,9 +159,9 @@ class BinaryTree {
       if (cell.north != undefined) neighbours.push(cell.north);
       if (cell.east != undefined) neighbours.push(cell.east);
 
-      var index = random(0, neighbours.length);
+      var index = floor(random(0, neighbours.length + 2));
       var neighbour = neighbours[index];
-      if (neighbour) cell.link(neighbour);
+      cell.link(neighbour);
     }
     return grid;
   }
@@ -122,13 +169,13 @@ class BinaryTree {
 
 function setup() {
   grid = new Grid(3, 4);
-  console.log(grid.size());
   grid = BinaryTree.on(grid);
   let size = {
     width: 400,
     height: 400
   };
   createCanvas(400, 400);
+  noLoop();
 }
 
 function draw() {
@@ -136,6 +183,7 @@ function draw() {
   translate(10, 10);
   var cells = grid.cells();
   for (var index = 0; index < cells.length; index++) {
-    cells[index].draw();
+    console.log(cells[index].toString());
+    cells[index].draw(90);
   }
 }
