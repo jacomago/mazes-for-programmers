@@ -34,6 +34,16 @@ class Cell {
     }
     return list;
   }
+
+  draw() {
+    let d = 90;
+    stroke(0);
+    line(this.row * d, this.column * d + d, this.row * d + d, this.column * d + d); // north
+    line(this.row * d, this.column * d, this.row * d + d, this.column * d); // south
+    line(this.row * d, this.column * d, this.row * d, this.column * d + d); // west
+    line(this.row * d + d, this.column * d, this.row * d + d, this.column * d + d); // east
+
+  }
 }
 
 class Grid {
@@ -83,15 +93,49 @@ class Grid {
   size() {
     return this.rows * this.columns;
   }
+
+  cells() {
+    var cells = [];
+    for (var row = 0; row < this.rows; row++) {
+      for (var col = 0; col < this.columns; col++) {
+        cells.push(this.grid[row][col]);
+      }
+    }
+    return cells;
+  }
+}
+
+class BinaryTree {
+  static on(grid) {
+    for (var cell in grid.cells()) {
+      var neighbours = [];
+      if (cell.north != undefined) neighbours.push(cell.north);
+      if (cell.east != undefined) neighbours.push(cell.east);
+
+      var index = random(0, neighbours.length);
+      var neighbour = neighbours[index];
+      if (neighbour) cell.link(neighbour);
+    }
+    return grid;
+  }
 }
 
 function setup() {
   grid = new Grid(3, 4);
   console.log(grid.size());
-  console.log(grid.get(1, 1));
+  grid = BinaryTree.on(grid);
+  let size = {
+    width: 400,
+    height: 400
+  };
   createCanvas(400, 400);
 }
 
 function draw() {
   background(220);
+  translate(10, 10);
+  var cells = grid.cells();
+  for (var index = 0; index < cells.length; index++) {
+    cells[index].draw();
+  }
 }
