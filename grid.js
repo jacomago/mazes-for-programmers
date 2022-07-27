@@ -94,6 +94,6 @@ class Grid {
     }
 
     contents_of(cell) {
-        return " ";
+        return ' ';
     }
 }

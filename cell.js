@@ -29,7 +29,7 @@ class Cell {
     }
 
 
-    links() {
+    link_keys() {
         return Object.keys(this.links);
     }
 
@@ -54,12 +54,16 @@ class Cell {
         let frontier = [this.key()];
 
         while (frontier.length > 0) {
-            new_frontier = [];
+            let new_frontier = [];
 
             for (let i = 0; frontier.length > i; i++) {
-                for (let linked in this.links()) {
-                    if (distances.get_by_key(linked) != null) {
-                        distances.set_by_key(linked, distances.get_by_key(linked) + 1);
+                let cell = frontier[i];
+                let links = cell.link_keys();
+                console.log(links);
+                for (let l = 0; links.length > l; l++) {
+                    let linked = links[l];
+                    if (distances.get_by_key(linked) == null) {
+                        distances.set_by_key(linked, distances.get_by_key(cell) + 1);
                         new_frontier.push(linked);
                     }
                 }
@@ -98,6 +102,7 @@ class Cell {
     }
 
     draw_interior(cell_size, thing) {
+        stroke(0);
         let c = this.centre(cell_size);
         text(thing, c[0], c[1]);
     }
