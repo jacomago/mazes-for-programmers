@@ -10,7 +10,7 @@ function setup() {
 }
 
 function draw() {
-  background(220);
-  translate(10, 10);
-  grid.draw(90);
+  background(255);
+  translate(40, 40);
+  grid.draw(80);
 }
