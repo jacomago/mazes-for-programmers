@@ -1,4 +1,4 @@
-class Cell {
+export class Cell {
     constructor(row, column) {
         this.row = row;
         this.column = column;
@@ -27,8 +27,8 @@ class Cell {
     }
 
     neighbours() {
-        var list = [];
-        for (var n in this.neighbours) {
+        let list = [];
+        for (let n in this.neighbours) {
             if (n != null) {
                 list.push(n);
             }
@@ -53,7 +53,7 @@ class Cell {
     linksString() {
         let s = 'links(' + this.links.size + '): [';
         for (let cell in this.links) {
-            s += cell.toString();
+            s += 'cell: ' + cell.toString() + ', ';
         }
         s += ']';
         return s;

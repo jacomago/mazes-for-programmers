@@ -1,9 +1,9 @@
 import Cell from "cell";
-class Grid {
+export class Grid {
     prepare_grid() {
-        var grid = [];
+        let grid = [];
         for (let row = 0; row < this.rows; row++) {
-            var grid_row = [];
+            let grid_row = [];
             for (let col = 0; col < this.columns; col++) {
                 grid_row[col] = new Cell(row, col);
             }
@@ -19,8 +19,8 @@ class Grid {
     }
 
     configure_cells() {
-        for (var row = 0; row < this.rows; row++) {
-            for (var col = 0; col < this.columns; col++) {
+        for (let row = 0; row < this.rows; row++) {
+            for (let col = 0; col < this.columns; col++) {
                 this.grid[row][col].north = this.get(row - 1, col);
                 this.grid[row][col].south = this.get(row + 1, col);
                 this.grid[row][col].west = this.get(row, col - 1);
@@ -38,8 +38,8 @@ class Grid {
 
 
     rand_cell() {
-        row = random(0, this.rows);
-        col = random(0, this.grid[row].length);
+        let row = random(0, this.rows);
+        let col = random(0, this.grid[row].length);
         return this.grid[row][col];
     }
 
@@ -57,10 +57,27 @@ class Grid {
         return cells;
     }
 
+    cell_rows() {
+        let cells = [];
+        for (let row = 0; row < this.rows; row++) {
+            cells.push(this.grid[row]);
+        }
+        return cells;
+    }
+
     draw(cell_size) {
         let cells = grid.cells();
         for (let index = 0; index < cells.length; index++) {
             cells[index].draw(cell_size);
         }
+    }
+
+    toString() {
+        let s = '';
+        let cells = grid.cells();
+        for (let index = 0; index < cells.length; index++) {
+            s += cells[index].toString() + '\n';
+        }
+        return s;
     }
 }

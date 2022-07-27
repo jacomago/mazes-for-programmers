@@ -2,7 +2,7 @@
 class BinaryTree {
     static on(grid) {
         let cells = grid.cells();
-        for (var cell_index = 0; cell_index < cells.length; cell_index++) {
+        for (let cell_index = 0; cell_index < cells.length; cell_index++) {
             let cell = cells[cell_index];
             let neighbours = [];
             if (cell.north != null) neighbours.push(cell.north);
