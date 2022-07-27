@@ -6,13 +6,13 @@ class Cell {
   }
 
   link(cell, bidi = true) {
-    this.links[cell] = true;
-    if (bidi) { cell.links(this, false); }
+    this.links[[cell.row, cell.column]] = true;
+    if (bidi) { cell.link(this, false); }
     return this;
   }
 
   unlink(cell, bidi = true) {
-    delete this.links[cell];
+    delete this.links[[cell.row, cell.column]];
     if (bidi) cell.unlink(this, false);
     return this;
   }
@@ -22,10 +22,8 @@ class Cell {
   }
 
   linked(cell) {
-    if (this.links.has(cell)) {
-      return true;
-    }
-    return false;
+    if (cell == null) return false;
+    return this.links[[cell.row, cell.column]];
   }
 
   neighbours() {
@@ -46,25 +44,17 @@ class Cell {
     let y1 = this.row * d;
     let x2 = (this.column + 1) * d;
     let y2 = (this.row + 1) * d;
-    if ((this.north != null)) line(x1, y1, x2, y1); // north
-    if ((this.west != null)) line(x1, y1, x1, y2); // west
+    if ((this.north === null)) line(x1, y1, x2, y1); // north
+    if ((this.west === null)) line(x1, y1, x1, y2); // west
     if (!(this.linked(this.east))) line(x2, y1, x2, y2); // east
     if (!(this.linked(this.south))) line(x1, y2, x2, y2); // south
+    text('' + this.row + ',' + this.column, x1, y1);
   }
 
   linksString() {
-    let s = 'links: [';
-    if (this.linked(this.north)) {
-      s += 'north,';
-    }
-    if (this.linked(this.south)) {
-      s += 'south,';
-    }
-    if (this.linked(this.east)) {
-      s += 'east,';
-    }
-    if (this.linked(this.west)) {
-      s += 'west,';
+    let s = 'links(' + this.links.size + '): [';
+    for (let cell in this.links) {
+      s += cell.toString();
     }
     s += ']';
     return s;
@@ -89,7 +79,7 @@ class Cell {
   }
 
   toString() {
-    return 'row: ' + this.row + ' col: ' + this.column + ' links: ' + this.linksString() + ' neighbours: ' + this.neighboursString();
+    return this.row + ', ' + this.column + ', ' + this.linksString() + ' ' + this.neighboursString();
   }
 }
 
@@ -142,48 +132,55 @@ class Grid {
   }
 
   cells() {
-    var cells = [];
-    for (var row = 0; row < this.rows; row++) {
-      for (var col = 0; col < this.columns; col++) {
+    let cells = [];
+    for (let row = 0; row < this.rows; row++) {
+      for (let col = 0; col < this.columns; col++) {
         cells.push(this.grid[row][col]);
       }
     }
     return cells;
   }
+
+  draw(cell_size) {
+    let cells = grid.cells();
+    for (let index = 0; index < cells.length; index++) {
+      cells[index].draw(cell_size);
+    }
+  }
 }
 
 class BinaryTree {
   static on(grid) {
-    for (var cell in grid.cells()) {
-      var neighbours = [];
-      if (cell.north != undefined) neighbours.push(cell.north);
-      if (cell.east != undefined) neighbours.push(cell.east);
+    let cells = grid.cells();
+    for (var cell_index = 0; cell_index < cells.length; cell_index++) {
+      let cell = cells[cell_index];
+      let neighbours = [];
+      if (cell.north != null) neighbours.push(cell.north);
+      if (cell.east != null) neighbours.push(cell.east);
 
-      var index = floor(random(0, neighbours.length + 2));
-      var neighbour = neighbours[index];
-      cell.link(neighbour);
+      if (neighbours.length > 0) {
+        let index = floor(random() * neighbours.length);
+        let neighbour = neighbours[index];
+        cell.link(neighbour);
+      }
     }
+
     return grid;
   }
 }
 
 function setup() {
-  grid = new Grid(3, 4);
-  grid = BinaryTree.on(grid);
-  let size = {
-    width: 400,
-    height: 400
-  };
   createCanvas(400, 400);
-  noLoop();
+  grid = new Grid(1, 2);
+  BinaryTree.on(grid);
+  console.log(grid.get(0, 0).toString());
+  console.log(grid.get(0, 1).toString());
+  frameRate(10);
 }
 
 function draw() {
   background(220);
   translate(10, 10);
-  var cells = grid.cells();
-  for (var index = 0; index < cells.length; index++) {
-    console.log(cells[index].toString());
-    cells[index].draw(90);
-  }
+  grid.draw(90);
+
 }
