@@ -1,4 +1,5 @@
-export class Cell {
+
+class Cell {
     constructor(row, column) {
         this.row = row;
         this.column = column;
@@ -27,18 +28,6 @@ export class Cell {
         return [x, y];
     }
 
-    draw_graph(cell_size, color) {
-        stroke(color);
-        let c = this.centre(cell_size);
-        if ((this.linked(this.east))) line(c[0], c[1],
-            this.east.centre(cell_size)[0], this.east.centre(cell_size)[1]); // east
-        if ((this.linked(this.north))) line(c[0], c[1],
-            this.north.centre(cell_size)[0], this.north.centre(cell_size)[1]); // north
-        if ((this.linked(this.south))) line(c[0], c[1],
-            this.south.centre(cell_size)[0], this.south.centre(cell_size)[1]); // south
-        if ((this.linked(this.west))) line(c[0], c[1],
-            this.west.centre(cell_size)[0], this.west.centre(cell_size)[1]); // west
-    }
 
     links() {
         return Object.keys(this.links);
@@ -70,7 +59,7 @@ export class Cell {
             for (let i = 0; frontier.length > i; i++) {
                 for (let linked in this.links()) {
                     if (distances.get_by_key(linked) != null) {
-                        distances.set_by_key(linked) = distances.get_by_key(linked) + 1;
+                        distances.set_by_key(linked, distances.get_by_key(linked) + 1);
                         new_frontier.push(linked);
                     }
                 }
@@ -93,6 +82,24 @@ export class Cell {
         if (!(this.linked(this.west))) line(x1, y1, x1, y2); // west
         if (!(this.linked(this.east))) line(x2, y1, x2, y2); // east
         if (!(this.linked(this.south))) line(x1, y2, x2, y2); // south
+    }
+
+    draw_graph(cell_size, color) {
+        stroke(color);
+        let c = this.centre(cell_size);
+        if ((this.linked(this.east))) line(c[0], c[1],
+            this.east.centre(cell_size)[0], this.east.centre(cell_size)[1]); // east
+        if ((this.linked(this.north))) line(c[0], c[1],
+            this.north.centre(cell_size)[0], this.north.centre(cell_size)[1]); // north
+        if ((this.linked(this.south))) line(c[0], c[1],
+            this.south.centre(cell_size)[0], this.south.centre(cell_size)[1]); // south
+        if ((this.linked(this.west))) line(c[0], c[1],
+            this.west.centre(cell_size)[0], this.west.centre(cell_size)[1]); // west
+    }
+
+    draw_interior(cell_size, thing) {
+        let c = this.centre(cell_size);
+        text(thing, c[0], c[1]);
     }
 
     linksString() {

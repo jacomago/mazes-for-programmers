@@ -14,7 +14,6 @@ class BinaryTree {
                 cell.link(neighbour);
             }
         }
-
         return grid;
     }
 }

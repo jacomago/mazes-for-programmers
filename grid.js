@@ -1,21 +1,25 @@
-import Cell from "cell";
-export class Grid {
-    prepare_grid() {
-        let grid = [];
-        for (let row = 0; row < this.rows; row++) {
-            let grid_row = [];
-            for (let col = 0; col < this.columns; col++) {
-                grid_row[col] = new Cell(row, col);
+
+class Grid {
+    static prepare_grid(rows, columns)  {
+        let boxes = [];
+        for (let row = 0; row < rows; row++) {
+            boxes[row] = [];
+            for (let col = 0; col < columns; col++) {
+                boxes[row][col] = new Cell(row, col);
             }
-            grid[row] = grid_row;
         }
-        return grid;
+        return boxes;
     }
 
     get(row, col) {
         if (!(this.rows > row && row >= 0)) return null;
         if (!(this.columns > col && col >= 0)) return null;
         return this.grid[row][col];
+    }
+    set(row, col, cell) {
+        if (!(this.rows > row && row >= 0)) return null;
+        if (!(this.columns > col && col >= 0)) return null;
+        this.grid[row][col] = cell;
     }
 
     configure_cells() {
@@ -32,13 +36,13 @@ export class Grid {
     constructor(rows, columns) {
         this.rows = rows;
         this.columns = columns;
-        this.grid = this.prepare_grid();
+        this.grid = Grid.prepare_grid(rows, columns);
         this.configure_cells();
     }
 
 
     rand_cell() {
-        let row = random(0, this.rows);
+        let row = rfloor(random() * this.rows);
         let col = random(0, this.grid[row].length);
         return this.grid[row][col];
     }
@@ -66,13 +70,15 @@ export class Grid {
     }
 
     draw(cell_size, thickness = 0) {
-        let cells = grid.cells();
+        let cells = this.cells();
         for (let index = 0; index < cells.length; index++) {
-            cells[index].draw(cell_size, thickness);
+            let cell = cells[index];
+            cell.draw(cell_size, thickness);
+            cell.draw_interior(cell_size, this.contents_of(cell));
         }
     }
     draw_graph(cell_size, color) {
-        let cells = grid.cells();
+        let cells = this.cells();
         for (let index = 0; index < cells.length; index++) {
             cells[index].draw_graph(cell_size, color);
         }
@@ -80,10 +86,14 @@ export class Grid {
 
     toString() {
         let s = '';
-        let cells = grid.cells();
+        let cells = this.cells();
         for (let index = 0; index < cells.length; index++) {
             s += cells[index].toString() + '\n';
         }
         return s;
+    }
+
+    contents_of(cell) {
+        return " ";
     }
 }
