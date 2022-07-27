@@ -71,6 +71,12 @@ export class Grid {
             cells[index].draw(cell_size);
         }
     }
+    draw_graph(cell_size, color) {
+        let cells = grid.cells();
+        for (let index = 0; index < cells.length; index++) {
+            cells[index].draw_graph(cell_size, color);
+        }
+    }
 
     toString() {
         let s = '';

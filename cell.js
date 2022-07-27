@@ -17,6 +17,26 @@ export class Cell {
         return this;
     }
 
+    centre(cell_size) {
+        let d = cell_size;
+        let x = (this.column + 0.5) * d;
+        let y = (this.row + 0.5) * d;
+        return [x, y];
+    }
+
+    draw_graph(cell_size, color) {
+        stroke(color);
+        let c = this.centre(cell_size);
+        if ((this.linked(this.east))) line(c[0], c[1],
+            this.east.centre(cell_size)[0], this.east.centre(cell_size)[1]); // east
+        if ((this.linked(this.north))) line(c[0], c[1],
+            this.north.centre(cell_size)[0], this.north.centre(cell_size)[1]); // north
+        if ((this.linked(this.south))) line(c[0], c[1],
+            this.south.centre(cell_size)[0], this.south.centre(cell_size)[1]); // south
+        if ((this.linked(this.west))) line(c[0], c[1],
+            this.west.centre(cell_size)[0], this.west.centre(cell_size)[1]); // west
+    }
+
     links() {
         return Object.keys(this.links);
     }
