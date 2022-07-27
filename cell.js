@@ -5,14 +5,17 @@ export class Cell {
         this.links = new Map();
     }
 
+    key() {
+        return [this.row, this.column];
+    }
     link(cell, bidi = true) {
-        this.links[[cell.row, cell.column]] = true;
+        this.links[cell.key()] = true;
         if (bidi) { cell.link(this, false); }
         return this;
     }
 
     unlink(cell, bidi = true) {
-        delete this.links[[cell.row, cell.column]];
+        delete this.links[cell.key()];
         if (bidi) cell.unlink(this, false);
         return this;
     }
@@ -43,7 +46,7 @@ export class Cell {
 
     linked(cell) {
         if (cell == null) return false;
-        return this.links[[cell.row, cell.column]];
+        return this.links[cell.key()];
     }
 
     neighbours() {
@@ -54,6 +57,28 @@ export class Cell {
             }
         }
         return list;
+    }
+
+
+    distances() {
+        let distances = new Distances(this);
+        let frontier = [this.key()];
+
+        while (frontier.length > 0) {
+            new_frontier = [];
+
+            for (let i = 0; frontier.length > i; i++) {
+                for (let linked in this.links()) {
+                    if (distances.get_by_key(linked) != null) {
+                        distances.set_by_key(linked) = distances.get_by_key(linked) + 1;
+                        new_frontier.push(linked);
+                    }
+                }
+
+                frontier = new_frontier;
+            }
+        }
+        return distances;
     }
 
     draw(cell_size, thickness = 0) {
@@ -71,7 +96,7 @@ export class Cell {
     }
 
     linksString() {
-        let s = 'links(' + this.links.size + '): [';
+        let s = 'links: [';
         for (let cell in this.links) {
             s += 'cell: ' + cell.toString() + ', ';
         }

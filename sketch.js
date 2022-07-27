@@ -1,4 +1,3 @@
-
 import { Grid } from "grid";
 import { BinaryTree } from "binary_tree";
 import { Sidewinder } from "sidewinder";
@@ -13,6 +12,6 @@ function setup() {
 function draw() {
   background(255);
   translate(40, 40);
-  grid.draw(30, 4);
+  grid.draw(30, 5);
   grid.draw_graph(30, 200);
 }
