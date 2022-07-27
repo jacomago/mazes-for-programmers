@@ -65,10 +65,10 @@ export class Grid {
         return cells;
     }
 
-    draw(cell_size) {
+    draw(cell_size, thickness = 0) {
         let cells = grid.cells();
         for (let index = 0; index < cells.length; index++) {
-            cells[index].draw(cell_size);
+            cells[index].draw(cell_size, thickness);
         }
     }
     draw_graph(cell_size, color) {

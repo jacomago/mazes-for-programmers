@@ -56,16 +56,16 @@ export class Cell {
         return list;
     }
 
-    draw(cell_size) {
+    draw(cell_size, thickness = 0) {
         let d = cell_size;
         stroke(0);
 
-        let x1 = this.column * d;
-        let y1 = this.row * d;
-        let x2 = (this.column + 1) * d;
-        let y2 = (this.row + 1) * d;
-        if ((this.north === null)) line(x1, y1, x2, y1); // north
-        if ((this.west === null)) line(x1, y1, x1, y2); // west
+        let x1 = this.column * d + thickness;
+        let y1 = this.row * d + thickness;
+        let x2 = (this.column + 1) * d - thickness;
+        let y2 = (this.row + 1) * d - thickness;
+        if (!(this.linked(this.north))) line(x1, y1, x2, y1); // north
+        if (!(this.linked(this.west))) line(x1, y1, x1, y2); // west
         if (!(this.linked(this.east))) line(x2, y1, x2, y2); // east
         if (!(this.linked(this.south))) line(x1, y2, x2, y2); // south
     }
