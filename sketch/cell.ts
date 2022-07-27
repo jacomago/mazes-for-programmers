@@ -1,41 +1,45 @@
 
 class Cell {
-    constructor(row, column) {
+    row: number;
+    column: number;
+    links: Set<Cell>;
+    north?: Cell;
+    south?: Cell;
+    west?: Cell;
+    east?: Cell;
+
+    constructor(row: number, column: number) {
         this.row = row;
         this.column = column;
-        this.links = new Map();
+        this.links = new Set();
     }
 
-    key() {
-        return [this.row, this.column];
-    }
-    link(cell, bidi = true) {
-        this.links[cell.key()] = true;
+    link(cell: Cell, bidi = true) {
+        this.links.add(cell);
         if (bidi) { cell.link(this, false); }
         return this;
     }
 
-    unlink(cell, bidi = true) {
-        delete this.links[cell.key()];
+    unlink(cell: Cell, bidi = true) {
+        this.links.delete(cell);
         if (bidi) cell.unlink(this, false);
         return this;
     }
 
-    centre(cell_size) {
+    centre(cell_size: number) {
         let d = cell_size;
         let x = (this.column + 0.5) * d;
         let y = (this.row + 0.5) * d;
         return [x, y];
     }
 
-
     link_keys() {
-        return Object.keys(this.links);
+        return this.links;
     }
 
-    linked(cell) {
+    linked(cell: Cell) {
         if (cell == null) return false;
-        return this.links[cell.key()];
+        return this.links.has(cell);
     }
 
     neighbours() {
@@ -51,19 +55,17 @@ class Cell {
 
     distances() {
         let distances = new Distances(this);
-        let frontier = [this.key()];
+        let frontier: Cell[] = [this];
 
         while (frontier.length > 0) {
-            let new_frontier = [];
+            let new_frontier: Cell[] = [];
 
             for (let i = 0; frontier.length > i; i++) {
                 let cell = frontier[i];
                 let links = cell.link_keys();
-                console.log(links);
-                for (let l = 0; links.length > l; l++) {
-                    let linked = links[l];
-                    if (distances.get_by_key(linked) == null) {
-                        distances.set_by_key(linked, distances.get_by_key(cell) + 1);
+                for (const linked of links) {
+                    if (distances.get(linked) == null) {
+                        distances.set(linked, distances.get(cell) + 1);
                         new_frontier.push(linked);
                     }
                 }
@@ -74,7 +76,7 @@ class Cell {
         return distances;
     }
 
-    draw(cell_size, thickness = 0) {
+    draw(cell_size: number, thickness = 0) {
         let d = cell_size;
         stroke(0);
 
@@ -88,7 +90,7 @@ class Cell {
         if (!(this.linked(this.south))) line(x1, y2, x2, y2); // south
     }
 
-    draw_graph(cell_size, color) {
+    draw_graph(cell_size: number, color: number) {
         stroke(color);
         let c = this.centre(cell_size);
         if ((this.linked(this.east))) line(c[0], c[1],
@@ -101,7 +103,7 @@ class Cell {
             this.west.centre(cell_size)[0], this.west.centre(cell_size)[1]); // west
     }
 
-    draw_interior(cell_size, thing) {
+    draw_interior(cell_size: number, thing: string) {
         stroke(0);
         let c = this.centre(cell_size);
         text(thing, c[0], c[1]);

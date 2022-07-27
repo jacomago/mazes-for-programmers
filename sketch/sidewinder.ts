@@ -1,7 +1,7 @@
 
 class Sidewinder {
 
-    static on(grid) {
+    static on(grid: Grid) {
       let cells = grid.cell_rows();
       for (let cell_row_index = 0; cell_row_index < cells.length; cell_row_index++) {
         let row = cells[cell_row_index];

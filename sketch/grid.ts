@@ -1,6 +1,10 @@
 
 class Grid {
-    static prepare_grid(rows, columns)  {
+    rows: number;
+    columns: number;
+    grid: Cell[][];
+
+    static prepare_grid(rows: number, columns: number): Cell[][]   {
         let boxes = [];
         for (let row = 0; row < rows; row++) {
             boxes[row] = [];
@@ -11,12 +15,13 @@ class Grid {
         return boxes;
     }
 
-    get(row, col) {
+    get(row: number, col: number) {
         if (!(this.rows > row && row >= 0)) return null;
         if (!(this.columns > col && col >= 0)) return null;
         return this.grid[row][col];
     }
-    set(row, col, cell) {
+
+    set(row: number, col: number, cell: Cell): void {
         if (!(this.rows > row && row >= 0)) return null;
         if (!(this.columns > col && col >= 0)) return null;
         this.grid[row][col] = cell;
@@ -32,8 +37,7 @@ class Grid {
             }
         }
     }
-
-    constructor(rows, columns) {
+    constructor(rows: number, columns: number) {
         this.rows = rows;
         this.columns = columns;
         this.grid = Grid.prepare_grid(rows, columns);
@@ -42,7 +46,7 @@ class Grid {
 
 
     rand_cell() {
-        let row = rfloor(random() * this.rows);
+        let row = floor(random() * this.rows);
         let col = random(0, this.grid[row].length);
         return this.grid[row][col];
     }
@@ -69,7 +73,7 @@ class Grid {
         return cells;
     }
 
-    draw(cell_size, thickness = 0) {
+    draw(cell_size: number, thickness = 0) {
         let cells = this.cells();
         for (let index = 0; index < cells.length; index++) {
             let cell = cells[index];
@@ -77,7 +81,7 @@ class Grid {
             cell.draw_interior(cell_size, this.contents_of(cell));
         }
     }
-    draw_graph(cell_size, color) {
+    draw_graph(cell_size: number, color: number) {
         let cells = this.cells();
         for (let index = 0; index < cells.length; index++) {
             cells[index].draw_graph(cell_size, color);
@@ -93,7 +97,22 @@ class Grid {
         return s;
     }
 
-    contents_of(cell) {
+    contents_of(cell: Cell) {
         return ' ';
+    }
+}
+
+class DistanceGrid extends Grid {
+    distances: Distances;
+    constructor(rows: number, columns: number) {
+        super(rows, columns);
+    }
+
+    contents_of(cell: Cell): string {
+        if (this.distances && this.distances.get(cell)) {
+            return str(this.distances.get(cell));
+        } else {
+            return super.contents_of(cell);
+        }
     }
 }

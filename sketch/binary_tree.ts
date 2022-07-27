@@ -1,6 +1,6 @@
 
 class BinaryTree {
-    static on(grid) {
+    static on(grid: Grid) {
         let cells = grid.cells();
         for (let cell_index = 0; cell_index < cells.length; cell_index++) {
             let cell = cells[cell_index];
