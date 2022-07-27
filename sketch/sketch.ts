@@ -15,7 +15,7 @@ function setup() {
   rectMode(CENTER).noFill().frameRate(30);
   // NUMBER OF SHAPES SLIDER
   numberOfShapesControl = createSlider(1, 30, 15, 1).position(10, 10).style("width", "100px");
-  grid_size = 10;
+  grid_size = 20;
   border = 40;
   calcCellSize();
 
