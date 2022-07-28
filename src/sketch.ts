@@ -1,4 +1,3 @@
-// GLOBAL VARS & TYPES
 
 import p5 from "p5";
 import { colored_grid } from "./bin/coloring";
@@ -11,7 +10,6 @@ let sketch = function (p: p5) {
   let cell_size: number;
   let grid_distance: DistanceGrid;
   p.preload = (): void => { };
-  // P5 WILL AUTOMATICALLY USE GLOBAL MODE IF A DRAW() FUNCTION IS DEFINED
   p.setup = (): void => {
     console.log("🚀 - Setup initialized - P5 is running");
 
@@ -19,6 +17,12 @@ let sketch = function (p: p5) {
     p.rectMode(p.CENTER).noFill().frameRate(30);
     // NUMBER OF SHAPES SLIDER
     grid_size = p.createSlider(4, 100, 15, 1).position(20, 20).style("width", "100px");
+
+    // Create a button for saving canvas image
+    let saveImageBtn = p.createButton("Save Canvas");
+    saveImageBtn.position(150, 20);
+    saveImageBtn.mousePressed(saveAsCanvas);
+
     grid_size_value = <number>grid_size.value();
     border = 40;
     calcCellSize(grid_size_value);
@@ -26,6 +30,10 @@ let sketch = function (p: p5) {
     console.log('make grid');
     grid_distance = colored_grid(grid_size_value);
     p.frameRate(10);
+  }
+
+  function saveAsCanvas() {
+    p.save("output_canvas" + "colored_longest_path" + ".png");
   }
 
   function calcCellSize(grid_size: number) {
