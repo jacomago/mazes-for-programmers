@@ -55,8 +55,8 @@ let sketch = function (p: p5) {
     p.background(255);
     update();
     p.translate(border, border);
-    grid_distance.draw(p, cell_size, 0);
+    grid_distance.draw(p, cell_size, 0, true);
     //grid_distance.draw_graph(cell_size, 200);
   }
 }
-let myp5 = new p5(sketch);
+new p5(sketch);

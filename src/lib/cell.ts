@@ -1,6 +1,9 @@
-import p5 from "p5";
+import p5, { Color } from "p5";
 import { Distances } from "./distances";
 
+interface Coords {
+    x1: number, y1: number, x2: number, y2: number
+}
 export class Cell {
     row: number;
     column: number;
@@ -69,18 +72,37 @@ export class Cell {
         return distances;
     }
 
-    draw(p: p5, cell_size: number, thickness = 0) {
+    coords(cell_size: number, thickness = 0): Coords {
         let d = cell_size;
+        return {
+            x1: this.column * d + thickness,
+            y1: this.row * d + thickness,
+            x2: (this.column + 1) * d - thickness,
+            y2: (this.row + 1) * d - thickness,
+        }
+    }
+
+    draw(p: p5, cell_size: number, thickness = 0, c = p.color(255, 255, 255), contents = " ") {
+        let coords = this.coords(cell_size, thickness);
+        this.draw_rect(p, coords, cell_size, c);
+        this.draw_walls(p, coords);
+        this.draw_interior(p, cell_size, contents)
+    }
+
+    draw_rect(p: p5, coords: Coords, cell_size: number, c = p.color(255, 255, 255)) {
+        p.noStroke();
+        p.fill(c);
+        p.rect(coords.x1 + cell_size * 0.5, coords.y1 + cell_size * 0.5, cell_size, cell_size);
+        p.noFill();
+    }
+
+    draw_walls(p: p5, coords: Coords,) {
         p.stroke(0);
 
-        let x1 = this.column * d + thickness;
-        let y1 = this.row * d + thickness;
-        let x2 = (this.column + 1) * d - thickness;
-        let y2 = (this.row + 1) * d - thickness;
-        if (!(this.linked(this.north))) p.line(x1, y1, x2, y1); // north
-        if (!(this.linked(this.west))) p.line(x1, y1, x1, y2); // west
-        if (!(this.linked(this.east))) p.line(x2, y1, x2, y2); // east
-        if (!(this.linked(this.south))) p.line(x1, y2, x2, y2); // south
+        if (!(this.linked(this.north))) p.line(coords.x1, coords.y1, coords.x2, coords.y1); // north
+        if (!(this.linked(this.west))) p.line(coords.x1, coords.y1, coords.x1, coords.y2); // west
+        if (!(this.linked(this.east))) p.line(coords.x2, coords.y1, coords.x2, coords.y2); // east
+        if (!(this.linked(this.south))) p.line(coords.x1, coords.y2, coords.x2, coords.y2); // south
     }
 
     draw_graph(p: p5, cell_size: number, color: number) {

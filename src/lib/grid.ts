@@ -75,12 +75,12 @@ export class Grid {
         return cells;
     }
 
-    draw(p: p5, cell_size: number, thickness = 0) {
+    draw(p: p5, cell_size: number, thickness = 0, draw_contents = false) {
         let cells = this.cells();
         for (let index = 0; index < cells.length; index++) {
             let cell = cells[index];
-            cell.draw(p, cell_size, thickness);
-            cell.draw_interior(p, cell_size, this.contents_of(cell));
+            cell.draw(p, cell_size, thickness, p.color(233, 233, 233), draw_contents ? this.contents_of(cell) : " ");
+
         }
     }
     draw_graph(p: p5, cell_size: number, color: number) {
