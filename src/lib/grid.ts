@@ -79,7 +79,7 @@ export class Grid {
         let cells = this.cells();
         for (let index = 0; index < cells.length; index++) {
             let cell = cells[index];
-            cell.draw(p, cell_size, thickness, p.color(233, 233, 233), draw_contents ? this.contents_of(cell) : " ");
+            cell.draw(p, cell_size, thickness, this.background_color_for(p, cell), draw_contents ? this.contents_of(cell) : " ");
 
         }
     }
@@ -103,7 +103,7 @@ export class Grid {
         return ' ';
     }
 
-    background_color_for(cell: Cell): Color | undefined {
+    background_color_for(p: p5, cell: Cell): Color | undefined {
         return;
     }
 }

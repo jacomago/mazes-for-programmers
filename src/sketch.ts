@@ -1,7 +1,7 @@
 // GLOBAL VARS & TYPES
 
 import p5 from "p5";
-import { longest_path_grid } from "./bin/longest_path";
+import { colored_grid } from "./bin/coloring";
 import { DistanceGrid } from "./lib/distance_grid";
 
 let sketch = function (p: p5) {
@@ -24,7 +24,7 @@ let sketch = function (p: p5) {
     calcCellSize(grid_size_value);
 
     console.log('make grid');
-    grid_distance = longest_path_grid(grid_size_value);
+    grid_distance = colored_grid(grid_size_value);
     p.frameRate(10);
   }
 
@@ -42,7 +42,7 @@ let sketch = function (p: p5) {
     if (Math.abs(current_val - grid_size_value) > 0) {
       grid_size_value = current_val;
       calcCellSize(grid_size_value);
-      grid_distance = longest_path_grid(grid_size_value);
+      grid_distance = colored_grid(grid_size_value);
     }
   }
 
