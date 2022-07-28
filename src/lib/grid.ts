@@ -1,11 +1,13 @@
+import p5, { Color } from "p5";
+import { Cell } from "./cell";
 
-class Grid {
+export class Grid {
     rows: number;
     columns: number;
     grid: Cell[][];
 
-    static prepare_grid(rows: number, columns: number): Cell[][]   {
-        let boxes = [];
+    static prepare_grid(rows: number, columns: number): Cell[][] {
+        let boxes: Cell[][] = [];
         for (let row = 0; row < rows; row++) {
             boxes[row] = [];
             for (let col = 0; col < columns; col++) {
@@ -16,14 +18,14 @@ class Grid {
     }
 
     get(row: number, col: number) {
-        if (!(this.rows > row && row >= 0)) return null;
-        if (!(this.columns > col && col >= 0)) return null;
+        if (!(this.rows > row && row >= 0)) return undefined;
+        if (!(this.columns > col && col >= 0)) return undefined;
         return this.grid[row][col];
     }
 
     set(row: number, col: number, cell: Cell): void {
-        if (!(this.rows > row && row >= 0)) return null;
-        if (!(this.columns > col && col >= 0)) return null;
+        if (!(this.rows > row && row >= 0)) return;
+        if (!(this.columns > col && col >= 0)) return;
         this.grid[row][col] = cell;
     }
 
@@ -46,8 +48,8 @@ class Grid {
 
 
     rand_cell() {
-        let row = floor(random() * this.rows);
-        let col = random(0, this.grid[row].length);
+        let row = Math.floor(Math.random() * this.rows);
+        let col = Math.floor(Math.random() * this.columns);
         return this.grid[row][col];
     }
 
@@ -56,7 +58,7 @@ class Grid {
     }
 
     cells() {
-        let cells = [];
+        let cells: Cell[] = [];
         for (let row = 0; row < this.rows; row++) {
             for (let col = 0; col < this.columns; col++) {
                 cells.push(this.grid[row][col]);
@@ -66,25 +68,25 @@ class Grid {
     }
 
     cell_rows() {
-        let cells = [];
+        let cells: Cell[][] = [];
         for (let row = 0; row < this.rows; row++) {
             cells.push(this.grid[row]);
         }
         return cells;
     }
 
-    draw(cell_size: number, thickness = 0) {
+    draw(p: p5, cell_size: number, thickness = 0) {
         let cells = this.cells();
         for (let index = 0; index < cells.length; index++) {
             let cell = cells[index];
-            cell.draw(cell_size, thickness);
-            cell.draw_interior(cell_size, this.contents_of(cell));
+            cell.draw(p, cell_size, thickness);
+            cell.draw_interior(p, cell_size, this.contents_of(cell));
         }
     }
-    draw_graph(cell_size: number, color: number) {
+    draw_graph(p: p5, cell_size: number, color: number) {
         let cells = this.cells();
         for (let index = 0; index < cells.length; index++) {
-            cells[index].draw_graph(cell_size, color);
+            cells[index].draw_graph(p, cell_size, color);
         }
     }
 
@@ -97,23 +99,12 @@ class Grid {
         return s;
     }
 
-    contents_of(cell: Cell) {
+    contents_of(cell: Cell): string {
         return ' ';
     }
-}
 
-
-class DistanceGrid extends Grid {
-    distances: Distances;
-    constructor(rows: number, columns: number) {
-        super(rows, columns);
-    }
-
-    contents_of(cell: Cell): string {
-        if (this.distances && this.distances.get(cell)) {
-            return str(this.distances.get(cell));
-        } else {
-            return super.contents_of(cell);
-        }
+    background_color_for(cell: Cell): Color | undefined {
+        return;
     }
 }
+

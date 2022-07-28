@@ -1,4 +1,6 @@
-class Distances {
+import { Cell } from "./cell";
+
+export class Distances {
     root: Cell;
     cells: Map<Cell, number>;
 
@@ -25,17 +27,31 @@ class Distances {
         let current = goal;
 
         let breadcrumbs = new Distances(this.root);
-        breadcrumbs.set(current, this.cells.get(current));
+        let dist = this.cells.get(current) ?? 0;
+        breadcrumbs.set(current, dist);
 
         while (current != this.root) {
             for (let link of current.link_keys()) {
-                if (this.cells.get(current) > this.cells.get(link)) {
-                    breadcrumbs.set(link, this.cells.get(link));
+                if ((this.cells.get(current) ?? 0) > (this.cells.get(link) ?? 0)) {
+                    breadcrumbs.set(link, this.cells.get(link) ?? 0);
                     current = link;
                     break;
                 }
             }
         }
         return breadcrumbs;
+    }
+
+    max(): { cell: Cell, distance: number } {
+        let max_distance = 0;
+        let max_cell = this.root;
+
+        for (let [cell, distance] of this.cells) {
+            if (distance > max_distance) {
+                max_cell = cell;
+                max_distance = distance;
+            }
+        }
+        return { cell: max_cell, distance: max_distance }
     }
 }

@@ -1,5 +1,7 @@
+import p5 from "p5";
+import { Distances } from "./distances";
 
-class Cell {
+export class Cell {
     row: number;
     column: number;
     links: Set<Cell>;
@@ -37,24 +39,14 @@ class Cell {
         return this.links;
     }
 
-    linked(cell: Cell) {
-        if (cell == null) return false;
+    linked(cell: Cell | undefined) {
+        if (cell == undefined) return false;
         return this.links.has(cell);
-    }
-
-    neighbours() {
-        let list = [];
-        for (let n in this.neighbours) {
-            if (n != null) {
-                list.push(n);
-            }
-        }
-        return list;
     }
 
 
     distances() {
-        let distances = new Distances(this);
+        let distances: Distances = new Distances(this);
         let frontier: Cell[] = [this];
 
         while (frontier.length > 0) {
@@ -65,7 +57,8 @@ class Cell {
                 let links = cell.link_keys();
                 for (const linked of links) {
                     if (distances.get(linked) == null) {
-                        distances.set(linked, distances.get(cell) + 1);
+                        let d = distances.get(cell) ?? 0;
+                        distances.set(linked, d + 1);
                         new_frontier.push(linked);
                     }
                 }
@@ -76,37 +69,37 @@ class Cell {
         return distances;
     }
 
-    draw(cell_size: number, thickness = 0) {
+    draw(p: p5, cell_size: number, thickness = 0) {
         let d = cell_size;
-        stroke(0);
+        p.stroke(0);
 
         let x1 = this.column * d + thickness;
         let y1 = this.row * d + thickness;
         let x2 = (this.column + 1) * d - thickness;
         let y2 = (this.row + 1) * d - thickness;
-        if (!(this.linked(this.north))) line(x1, y1, x2, y1); // north
-        if (!(this.linked(this.west))) line(x1, y1, x1, y2); // west
-        if (!(this.linked(this.east))) line(x2, y1, x2, y2); // east
-        if (!(this.linked(this.south))) line(x1, y2, x2, y2); // south
+        if (!(this.linked(this.north))) p.line(x1, y1, x2, y1); // north
+        if (!(this.linked(this.west))) p.line(x1, y1, x1, y2); // west
+        if (!(this.linked(this.east))) p.line(x2, y1, x2, y2); // east
+        if (!(this.linked(this.south))) p.line(x1, y2, x2, y2); // south
     }
 
-    draw_graph(cell_size: number, color: number) {
-        stroke(color);
+    draw_graph(p: p5, cell_size: number, color: number) {
+        p.stroke(color);
         let c = this.centre(cell_size);
-        if ((this.linked(this.east))) line(c[0], c[1],
-            this.east.centre(cell_size)[0], this.east.centre(cell_size)[1]); // east
-        if ((this.linked(this.north))) line(c[0], c[1],
-            this.north.centre(cell_size)[0], this.north.centre(cell_size)[1]); // north
-        if ((this.linked(this.south))) line(c[0], c[1],
-            this.south.centre(cell_size)[0], this.south.centre(cell_size)[1]); // south
-        if ((this.linked(this.west))) line(c[0], c[1],
-            this.west.centre(cell_size)[0], this.west.centre(cell_size)[1]); // west
+        if ((this.linked(this.east))) p.line(c[0], c[1],
+            this.east!.centre(cell_size)[0], this.east!.centre(cell_size)[1]); // east
+        if ((this.linked(this.north))) p.line(c[0], c[1],
+            this.north!.centre(cell_size)[0], this.north!.centre(cell_size)[1]); // north
+        if ((this.linked(this.south))) p.line(c[0], c[1],
+            this.south!.centre(cell_size)[0], this.south!.centre(cell_size)[1]); // south
+        if ((this.linked(this.west))) p.line(c[0], c[1],
+            this.west!.centre(cell_size)[0], this.west!.centre(cell_size)[1]); // west
     }
 
-    draw_interior(cell_size: number, thing: string) {
-        stroke(200);
+    draw_interior(p: p5, cell_size: number, thing: string) {
+        p.stroke(200);
         let c = this.centre(cell_size);
-        text(thing, c[0], c[1]);
+        p.text(thing, c[0], c[1]);
     }
 
     linksString() {

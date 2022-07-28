@@ -1,5 +1,6 @@
+import { Grid } from "./grid";
 
-class BinaryTree {
+export class BinaryTree {
     static on(grid: Grid) {
         let cells = grid.cells();
         for (let cell_index = 0; cell_index < cells.length; cell_index++) {

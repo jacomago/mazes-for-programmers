@@ -1,3 +1,5 @@
+import { DistanceGrid } from "../lib/distance_grid";
+import { Sidewinder } from "../lib/sidewinder";
 
 function setup_distance_grid(grid_size: number): DistanceGrid {
     let grid_distance = new DistanceGrid(grid_size, grid_size);
