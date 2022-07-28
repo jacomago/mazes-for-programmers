@@ -30,6 +30,7 @@ class Distances {
         while (current != this.root) {
             for (let link of current.link_keys()) {
                 if (this.cells.get(current) > this.cells.get(link)) {
+                    breadcrumbs.set(link, this.cells.get(link));
                     current = link;
                     break;
                 }

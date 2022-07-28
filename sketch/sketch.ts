@@ -19,7 +19,7 @@ function setup() {
   calcCellSize(grid_size_value);
 
   console.log('make grid');
-  grid_distance = setup_distance_grid(grid_size_value);
+  grid_distance = with_path(grid_size_value);
   frameRate(10);
 }
 
@@ -38,7 +38,7 @@ function update_grid_size_value() {
   if (abs(current_val - grid_size_value) > 0) {
     grid_size_value = current_val;
     calcCellSize(grid_size_value);
-    grid_distance = setup_distance_grid(grid_size_value);
+    grid_distance = with_path(grid_size_value);
   }
 }
 
