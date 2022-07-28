@@ -104,7 +104,7 @@ class Cell {
     }
 
     draw_interior(cell_size: number, thing: string) {
-        stroke(0);
+        stroke(200);
         let c = this.centre(cell_size);
         text(thing, c[0], c[1]);
     }

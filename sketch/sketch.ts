@@ -1,10 +1,9 @@
 // GLOBAL VARS & TYPES
-let numberOfShapesControl: p5.Element;
-let grid_size: number;
+
+let grid_size: p5.Element;
+let grid_size_value: number;
 let border: number;
 let cell_size: number;
-let grid: Grid;
-let grid2: Grid;
 let grid_distance: DistanceGrid;
 
 // P5 WILL AUTOMATICALLY USE GLOBAL MODE IF A DRAW() FUNCTION IS DEFINED
@@ -14,47 +13,44 @@ function setup() {
   createCanvas(windowWidth, windowHeight)
   rectMode(CENTER).noFill().frameRate(30);
   // NUMBER OF SHAPES SLIDER
-  numberOfShapesControl = createSlider(1, 30, 15, 1).position(10, 10).style("width", "100px");
-  grid_size = 20;
+  grid_size = createSlider(4, 100, 15, 1).position(20, 20).style("width", "100px");
+  grid_size_value = <number>grid_size.value();
   border = 40;
-  calcCellSize();
+  calcCellSize(grid_size_value);
 
-  grid = new Grid(grid_size, grid_size);
-  BinaryTree.on(grid);
-  grid2 = new Grid(grid_size, grid_size);
-  Sidewinder.on(grid2);
-  console.log('made first grids');
-  grid_distance = new DistanceGrid(grid_size, grid_size);
-  BinaryTree.on(grid_distance);
-  let start = grid_distance.get(0, 0);
-  let distances = start.distances();
-  grid_distance.distances = distances;
-  console.log('made distance grid');
+  console.log('make grid');
+  grid_distance = setup_distance_grid(grid_size_value);
   frameRate(10);
 }
 
-function calcCellSize() {
-  cell_size = (windowWidth * 0.45 - border) / grid_size;
+function calcCellSize(grid_size: number) {
+  cell_size = (windowWidth * 0.9 - border) / grid_size;
 }
 
 // p5 WILL AUTO RUN THIS FUNCTION IF THE BROWSER WINDOW SIZE CHANGES
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-  calcCellSize();
+  calcCellSize(grid_size_value);
+}
+
+function update_grid_size_value() {
+  let current_val = <number>grid_size.value();
+  if (abs(current_val - grid_size_value) > 0) {
+    grid_size_value = current_val;
+    calcCellSize(grid_size_value);
+    grid_distance = setup_distance_grid(grid_size_value);
+  }
+}
+
+function update() {
+  update_grid_size_value();
 }
 
 // p5 WILL HANDLE REQUESTING ANIMATION FRAMES FROM THE BROWSER AND WIL RUN DRAW() EACH ANIMATION FROME
 function draw() {
   background(255);
-
+  update();
   translate(border, border);
-  grid.draw(cell_size, 0);
-  //grid.draw_graph(cell_size, 200);
-  translate(0, windowWidth * 0.5);
-  grid2.draw(cell_size, 0);
-  //grid2.draw_graph(cell_size, 200);
-
-  translate(windowWidth * 0.5, 0);
   grid_distance.draw(cell_size, 0);
   //grid_distance.draw_graph(cell_size, 200);
 }

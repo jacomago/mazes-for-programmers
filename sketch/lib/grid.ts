@@ -102,6 +102,7 @@ class Grid {
     }
 }
 
+
 class DistanceGrid extends Grid {
     distances: Distances;
     constructor(rows: number, columns: number) {
