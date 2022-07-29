@@ -14,7 +14,7 @@
 		p.setup = (): void => {
 			console.log('🚀 - Setup initialized - P5 is running');
 
-			p.createCanvas(p.displayWidth, p.windowHeight);
+			p.createCanvas(p.windowWidth, p.windowWidth);
 			p.rectMode(p.CENTER).noFill().frameRate(30);
 			// NUMBER OF SHAPES SLIDER
 
@@ -41,7 +41,7 @@
 		}
 
 		p.windowResized = (): void => {
-			p.resizeCanvas(p.displayWidth, p.windowHeight);
+			p.resizeCanvas(p.windowWidth, p.windowWidth);
 			calcCellSize(grid_size_value);
 		};
 
@@ -74,7 +74,6 @@
 	<input type="range" bind:value={grid_size} min="4" max="100" step="1" />
 	{grid_size}
 </label>
-<button on:click={sketch}>Save Canvas 2</button>
 <div width="100">
 	<P5 {sketch} />
 </div>

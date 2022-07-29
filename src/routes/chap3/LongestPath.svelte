@@ -2,7 +2,7 @@
 	import P5, { type Sketch } from 'p5-svelte';
 	import type * as p5 from 'p5';
 	import type { Grid } from '$lib/grid';
-	import { setup_binary_tree_grid } from '$lib/bin/binary_tree_demo';
+	import { longest_path_grid } from '$lib/bin/longest_path';
 	let grid_size = 15;
 
 	let sketch: Sketch = function (p: p5) {
@@ -28,7 +28,7 @@
 			calcCellSize(grid_size_value);
 
 			console.log('make grid');
-			grid_distance = setup_binary_tree_grid(grid_size_value);
+			grid_distance = longest_path_grid(grid_size_value);
 			p.frameRate(10);
 		};
 
@@ -50,7 +50,7 @@
 			if (Math.abs(current_val - grid_size_value) > 0) {
 				grid_size_value = current_val;
 				calcCellSize(grid_size_value);
-				grid_distance = setup_binary_tree_grid(grid_size_value);
+				grid_distance = longest_path_grid(grid_size_value);
 			}
 		}
 
@@ -69,6 +69,7 @@
 	};
 </script>
 
+<h2>Longest Path</h2>
 <label>
 	Grid Size
 	<input type="range" bind:value={grid_size} min="4" max="100" step="1" />
