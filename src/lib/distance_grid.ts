@@ -1,5 +1,5 @@
-import { Cell } from "./cell";
-import { Distances } from "./distances";
+import type { Cell } from "./cell";
+import type { Distances } from "./distances";
 import { Grid } from "./grid";
 
 export class DistanceGrid extends Grid {

@@ -1,4 +1,5 @@
-import { Cell } from "./cell";
+import type { Cell } from "./cell";
+
 
 export class Distances {
     root: Cell;
@@ -26,12 +27,12 @@ export class Distances {
     path_to(goal: Cell): Distances {
         let current = goal;
 
-        let breadcrumbs = new Distances(this.root);
-        let dist = this.cells.get(current) ?? 0;
+        const breadcrumbs = new Distances(this.root);
+        const dist = this.cells.get(current) ?? 0;
         breadcrumbs.set(current, dist);
 
         while (current != this.root) {
-            for (let link of current.link_keys()) {
+            for (const link of current.link_keys()) {
                 if ((this.cells.get(current) ?? 0) > (this.cells.get(link) ?? 0)) {
                     breadcrumbs.set(link, this.cells.get(link) ?? 0);
                     current = link;
@@ -46,7 +47,7 @@ export class Distances {
         let max_distance = 0;
         let max_cell = this.root;
 
-        for (let [cell, distance] of this.cells) {
+        for (const [cell, distance] of this.cells) {
             if (distance > max_distance) {
                 max_cell = cell;
                 max_distance = distance;

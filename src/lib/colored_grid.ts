@@ -1,6 +1,8 @@
-import p5, { Color } from "p5";
-import { Cell } from "./cell";
-import { Distances } from "./distances";
+
+import type { Color } from "p5";
+import type * as p5 from "p5";
+import type { Cell } from "./cell";
+import type { Distances } from "./distances";
 import { Grid } from "./grid";
 
 export class ColoredGrid extends Grid {
@@ -12,15 +14,15 @@ export class ColoredGrid extends Grid {
     }
 
     background_color_for(p: p5, cell: Cell): Color | undefined {
-        let distance = this.distances.get(cell);
+        const distance = this.distances.get(cell);
         if (distance == undefined) {
             return;
         }
 
-        let intensity = (this.maximum - distance) / this.maximum;
-        let dark = Math.round(255 * intensity);
-        let bright = 128 + Math.round(127 * intensity);
-        let c = p.color(dark, bright, dark);
+        const intensity = (this.maximum - distance) / this.maximum;
+        const dark = Math.round(255 * intensity);
+        const bright = 128 + Math.round(127 * intensity);
+        const c = p.color(dark, bright, dark);
         return c;
     }
 }

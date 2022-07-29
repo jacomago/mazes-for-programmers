@@ -1,4 +1,6 @@
-import p5, { Color } from "p5";
+
+import type { Color } from "p5";
+import type * as p5 from "p5";
 import { Cell } from "./cell";
 
 export class Grid {
@@ -7,7 +9,7 @@ export class Grid {
     grid: Cell[][];
 
     static prepare_grid(rows: number, columns: number): Cell[][] {
-        let boxes: Cell[][] = [];
+        const boxes: Cell[][] = [];
         for (let row = 0; row < rows; row++) {
             boxes[row] = [];
             for (let col = 0; col < columns; col++) {
@@ -48,8 +50,8 @@ export class Grid {
 
 
     rand_cell() {
-        let row = Math.floor(Math.random() * this.rows);
-        let col = Math.floor(Math.random() * this.columns);
+        const row = Math.floor(Math.random() * this.rows);
+        const col = Math.floor(Math.random() * this.columns);
         return this.grid[row][col];
     }
 
@@ -58,7 +60,7 @@ export class Grid {
     }
 
     cells() {
-        let cells: Cell[] = [];
+        const cells: Cell[] = [];
         for (let row = 0; row < this.rows; row++) {
             for (let col = 0; col < this.columns; col++) {
                 cells.push(this.grid[row][col]);
@@ -68,7 +70,7 @@ export class Grid {
     }
 
     cell_rows() {
-        let cells: Cell[][] = [];
+        const cells: Cell[][] = [];
         for (let row = 0; row < this.rows; row++) {
             cells.push(this.grid[row]);
         }
@@ -76,15 +78,15 @@ export class Grid {
     }
 
     draw(p: p5, cell_size: number, thickness = 0, draw_contents = false) {
-        let cells = this.cells();
+        const cells = this.cells();
         for (let index = 0; index < cells.length; index++) {
-            let cell = cells[index];
+            const cell = cells[index];
             cell.draw(p, cell_size, thickness, this.background_color_for(p, cell), draw_contents ? this.contents_of(cell) : " ");
 
         }
     }
     draw_graph(p: p5, cell_size: number, color: number) {
-        let cells = this.cells();
+        const cells = this.cells();
         for (let index = 0; index < cells.length; index++) {
             cells[index].draw_graph(p, cell_size, color);
         }
@@ -92,7 +94,7 @@ export class Grid {
 
     toString() {
         let s = '';
-        let cells = this.cells();
+        const cells = this.cells();
         for (let index = 0; index < cells.length; index++) {
             s += cells[index].toString() + '\n';
         }

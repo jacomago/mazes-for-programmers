@@ -1,4 +1,5 @@
-import p5, { Color } from "p5";
+
+import type * as p5 from "p5";
 import { Distances } from "./distances";
 
 interface Coords {
@@ -32,9 +33,9 @@ export class Cell {
     }
 
     centre(cell_size: number) {
-        let d = cell_size;
-        let x = (this.column + 0.5) * d;
-        let y = (this.row + 0.5) * d;
+        const d = cell_size;
+        const x = (this.column + 0.5) * d;
+        const y = (this.row + 0.5) * d;
         return [x, y];
     }
 
@@ -49,18 +50,18 @@ export class Cell {
 
 
     distances() {
-        let distances: Distances = new Distances(this);
+        const distances: Distances = new Distances(this);
         let frontier: Cell[] = [this];
 
         while (frontier.length > 0) {
-            let new_frontier: Cell[] = [];
+            const new_frontier: Cell[] = [];
 
             for (let i = 0; frontier.length > i; i++) {
-                let cell = frontier[i];
-                let links = cell.link_keys();
+                const cell = frontier[i];
+                const links = cell.link_keys();
                 for (const linked of links) {
                     if (distances.get(linked) == null) {
-                        let d = distances.get(cell) ?? 0;
+                        const d = distances.get(cell) ?? 0;
                         distances.set(linked, d + 1);
                         new_frontier.push(linked);
                     }
@@ -73,7 +74,7 @@ export class Cell {
     }
 
     coords(cell_size: number, thickness = 0): Coords {
-        let d = cell_size;
+        const d = cell_size;
         return {
             x1: this.column * d + thickness,
             y1: this.row * d + thickness,
@@ -83,7 +84,7 @@ export class Cell {
     }
 
     draw(p: p5, cell_size: number, thickness = 0, c = p.color(255, 255, 255), contents = " ") {
-        let coords = this.coords(cell_size, thickness);
+        const coords = this.coords(cell_size, thickness);
         this.draw_rect(p, coords, cell_size, c);
         this.draw_walls(p, coords);
         this.draw_interior(p, cell_size, contents)
@@ -107,7 +108,7 @@ export class Cell {
 
     draw_graph(p: p5, cell_size: number, color: number) {
         p.stroke(color);
-        let c = this.centre(cell_size);
+        const c = this.centre(cell_size);
         if ((this.linked(this.east))) p.line(c[0], c[1],
             this.east!.centre(cell_size)[0], this.east!.centre(cell_size)[1]); // east
         if ((this.linked(this.north))) p.line(c[0], c[1],
@@ -120,13 +121,13 @@ export class Cell {
 
     draw_interior(p: p5, cell_size: number, thing: string) {
         p.stroke(200);
-        let c = this.centre(cell_size);
+        const c = this.centre(cell_size);
         p.text(thing, c[0], c[1]);
     }
 
     linksString() {
         let s = 'links: [';
-        for (let cell in this.links) {
+        for (const cell in this.links) {
             s += 'cell: ' + cell.toString() + ', ';
         }
         s += ']';

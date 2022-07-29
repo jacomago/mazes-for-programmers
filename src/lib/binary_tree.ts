@@ -1,18 +1,19 @@
-import { Cell } from "./cell";
-import { Grid } from "./grid";
+import type { Cell } from "./cell";
+import type { Grid } from "./grid";
+
 
 export class BinaryTree {
     static on(grid: Grid) {
-        let cells = grid.cells();
+        const cells = grid.cells();
         for (let cell_index = 0; cell_index < cells.length; cell_index++) {
-            let cell = cells[cell_index];
-            let neighbours: Cell[] = [];
+            const cell = cells[cell_index];
+            const neighbours: Cell[] = [];
             if (cell.north != undefined) neighbours.push(cell.north);
             if (cell.east != undefined) neighbours.push(cell.east);
 
             if (neighbours.length > 0) {
-                let index = Math.floor(Math.random() * neighbours.length);
-                let neighbour = neighbours[index];
+                const index = Math.floor(Math.random() * neighbours.length);
+                const neighbour = neighbours[index];
                 cell.link(neighbour);
             }
         }
