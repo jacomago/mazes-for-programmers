@@ -13,13 +13,12 @@
 	function init_grid(grid_size: number): ColoredGrid {
 		const grid = new ColoredGrid(grid_size, grid_size);
 		Sidewinder.on(grid);
-		let start = grid.get(0, 0);
-		grid.set_distances(new Distances(start));
 		return grid;
 	}
 
-	function init_frontier(grid: Grid): Cell[] {
-		return [grid.get(0, 0)];
+	function init_frontier(grid: Grid, in_start?: Cell): Cell[] {
+		let cell = in_start ?? grid.get(0, 0);
+		return [cell];
 	}
 
 	function update_grid(grid: ColoredGrid, frontier: Cell[]) {
@@ -55,13 +54,28 @@
 
 			console.log('make grid');
 			grid_distance = init_grid(grid_size_value);
-			frontier = init_frontier(grid_distance);
+			init_distances();
 			p.frameRate(10);
 		};
 
 		function saveAsCanvas() {
 			p.save('output_canvas' + 'colored_longest_path' + '.png');
 		}
+
+		function init_distances(in_start?: Cell) {
+			let start = in_start ?? grid_distance.get(0, 0);
+			console.log('init grid at ' + start.row + ' ' + start.column);
+			grid_distance.set_distances(new Distances(start));
+			frontier = init_frontier(grid_distance, in_start);
+		}
+		p.mousePressed = (): void => {
+			console.log('mouse pressed ' + p.mouseX + ' ' + p.mouseY);
+			let column = Math.floor(p.mouseX / cell_size) - 1;
+			let row = Math.floor(p.mouseY / cell_size) - 1;
+			console.log('mouse pressed at grid point' + row + ' ' + column);
+			let cell = grid_distance.get(row, column);
+			init_distances(cell);
+		};
 
 		function calcCellSize(grid_size: number) {
 			cell_size = (p.windowWidth * 0.9 - border) / grid_size;
@@ -77,7 +91,7 @@
 				grid_size_value = current_val;
 				calcCellSize(grid_size_value);
 				grid_distance = init_grid(grid_size_value);
-				frontier = init_frontier(grid_distance);
+				init_distances();
 			}
 		}
 
