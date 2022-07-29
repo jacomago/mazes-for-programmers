@@ -69,7 +69,7 @@
 	};
 </script>
 
-<h2>Colored furthest away point path</h2>
+<h2>Colored from center</h2>
 <label>
 	Grid Size
 	<input type="range" bind:value={grid_size} min="4" max="100" step="1" />

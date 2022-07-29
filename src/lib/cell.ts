@@ -1,6 +1,6 @@
 
 import type * as p5 from "p5";
-import { Distances } from "./distances";
+import { cell_distances } from "./djikstra";
 
 interface Coords {
     x1: number, y1: number, x2: number, y2: number
@@ -50,27 +50,7 @@ export class Cell {
 
 
     distances() {
-        const distances: Distances = new Distances(this);
-        let frontier: Cell[] = [this];
-
-        while (frontier.length > 0) {
-            const new_frontier: Cell[] = [];
-
-            for (let i = 0; frontier.length > i; i++) {
-                const cell = frontier[i];
-                const links = cell.link_keys();
-                for (const linked of links) {
-                    if (distances.get(linked) == null) {
-                        const d = distances.get(cell) ?? 0;
-                        distances.set(linked, d + 1);
-                        new_frontier.push(linked);
-                    }
-                }
-
-                frontier = new_frontier;
-            }
-        }
-        return distances;
+        return cell_distances(this);
     }
 
     coords(cell_size: number, thickness = 0): Coords {
@@ -110,13 +90,13 @@ export class Cell {
         p.stroke(color);
         const c = this.centre(cell_size);
         if ((this.linked(this.east))) p.line(c[0], c[1],
-            this.east!.centre(cell_size)[0], this.east!.centre(cell_size)[1]); // east
+            this.east.centre(cell_size)[0], this.east.centre(cell_size)[1]); // east
         if ((this.linked(this.north))) p.line(c[0], c[1],
-            this.north!.centre(cell_size)[0], this.north!.centre(cell_size)[1]); // north
+            this.north.centre(cell_size)[0], this.north.centre(cell_size)[1]); // north
         if ((this.linked(this.south))) p.line(c[0], c[1],
-            this.south!.centre(cell_size)[0], this.south!.centre(cell_size)[1]); // south
+            this.south.centre(cell_size)[0], this.south.centre(cell_size)[1]); // south
         if ((this.linked(this.west))) p.line(c[0], c[1],
-            this.west!.centre(cell_size)[0], this.west!.centre(cell_size)[1]); // west
+            this.west.centre(cell_size)[0], this.west.centre(cell_size)[1]); // west
     }
 
     draw_interior(p: p5, cell_size: number, thing: string) {

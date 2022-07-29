@@ -1,15 +1,41 @@
 <script lang="ts">
-	import { colored_grid } from '../lib/bin/coloring';
-	import type { DistanceGrid } from '../lib/distance_grid';
 	import P5, { type Sketch } from 'p5-svelte';
 	import type * as p5 from 'p5';
+	import { Sidewinder } from '$lib/sidewinder';
+	import { ColoredGrid } from '$lib/colored_grid';
+	import type { DistanceGrid } from '$lib/distance_grid';
+	import { Distances } from '$lib/distances';
+	import type { Cell } from '$lib/cell';
+	import type { Grid } from '$lib/grid';
+	import { step_distance } from '$lib/djikstra';
 	let grid_size = 15;
+
+	function init_grid(grid_size: number): ColoredGrid {
+		const grid = new ColoredGrid(grid_size, grid_size);
+		Sidewinder.on(grid);
+		let start = grid.get(0, 0);
+		grid.set_distances(new Distances(start));
+		return grid;
+	}
+
+	function init_frontier(grid: Grid): Cell[] {
+		return [grid.get(0, 0)];
+	}
+
+	function update_grid(grid: ColoredGrid, frontier: Cell[]) {
+		let distances = grid.get_distances();
+
+		if (frontier.length > 0) {
+			return step_distance(distances, frontier);
+		}
+	}
 
 	let sketch: Sketch = function (p: p5) {
 		let grid_size_value: number;
 		let border: number;
 		let cell_size: number;
-		let grid_distance: DistanceGrid;
+		let grid_distance: ColoredGrid;
+		let frontier: Cell[];
 		p.preload = (): void => {};
 		p.setup = (): void => {
 			console.log('🚀 - Setup initialized - P5 is running');
@@ -28,13 +54,14 @@
 			calcCellSize(grid_size_value);
 
 			console.log('make grid');
-			grid_distance = colored_grid(grid_size_value);
+			grid_distance = init_grid(grid_size_value);
+			frontier = init_frontier(grid_distance);
 			p.frameRate(10);
 		};
 
 		function saveAsCanvas() {
 			p.save('output_canvas' + 'colored_longest_path' + '.png');
-		};
+		}
 
 		function calcCellSize(grid_size: number) {
 			cell_size = (p.windowWidth * 0.9 - border) / grid_size;
@@ -50,11 +77,17 @@
 			if (Math.abs(current_val - grid_size_value) > 0) {
 				grid_size_value = current_val;
 				calcCellSize(grid_size_value);
-				grid_distance = colored_grid(grid_size_value);
+				grid_distance = init_grid(grid_size_value);
+				frontier = init_frontier(grid_distance);
 			}
 		}
 
 		function update() {
+			if (frontier.length > 0) {
+				let step = update_grid(grid_distance, frontier);
+				grid_distance.set_distances(step.distances);
+				frontier = step.frontier;
+			}
 			update_grid_size_value();
 		}
 

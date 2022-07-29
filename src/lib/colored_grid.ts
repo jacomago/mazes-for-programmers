@@ -13,6 +13,9 @@ export class ColoredGrid extends Grid {
         this.maximum = distances.max().distance;
     }
 
+    get_distances() {
+        return this.distances;
+    }
     background_color_for(p: p5, cell: Cell): Color | undefined {
         const distance = this.distances.get(cell);
         if (distance == undefined) {
