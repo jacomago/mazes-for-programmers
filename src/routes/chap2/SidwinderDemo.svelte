@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { colored_grid } from '../lib/bin/coloring';
-	import type { DistanceGrid } from '../lib/distance_grid';
 	import P5, { type Sketch } from 'p5-svelte';
 	import type * as p5 from 'p5';
+	import type { Grid } from '$lib/grid';
+	import { setup_sidewinder_grid } from '$lib/bin/sidwinder_demo';
 	let grid_size = 15;
 
 	let sketch: Sketch = function (p: p5) {
 		let grid_size_value: number;
 		let border: number;
 		let cell_size: number;
-		let grid_distance: DistanceGrid;
+		let grid_distance: Grid;
 		p.preload = (): void => {};
 		p.setup = (): void => {
 			console.log('🚀 - Setup initialized - P5 is running');
@@ -28,13 +28,13 @@
 			calcCellSize(grid_size_value);
 
 			console.log('make grid');
-			grid_distance = colored_grid(grid_size_value);
+			grid_distance = setup_sidewinder_grid(grid_size_value);
 			p.frameRate(10);
 		};
 
 		function saveAsCanvas() {
 			p.save('output_canvas' + 'colored_longest_path' + '.png');
-		};
+		}
 
 		function calcCellSize(grid_size: number) {
 			cell_size = (p.windowWidth * 0.9 - border) / grid_size;
@@ -50,7 +50,7 @@
 			if (Math.abs(current_val - grid_size_value) > 0) {
 				grid_size_value = current_val;
 				calcCellSize(grid_size_value);
-				grid_distance = colored_grid(grid_size_value);
+				grid_distance = setup_sidewinder_grid(grid_size_value);
 			}
 		}
 
