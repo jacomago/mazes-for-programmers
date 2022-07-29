@@ -37,8 +37,8 @@ export function step_distance(distances: Distances, frontier: Cell[]) {
         for (let i = 0; frontier.length > i; i++) {
             new_frontier.push(...cell_frontier(distances, frontier[i]));
 
-            frontier = new_frontier;
         }
+        frontier = new_frontier;
     }
     return { distances: distances, frontier: frontier };
 
