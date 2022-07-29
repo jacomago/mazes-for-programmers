@@ -74,7 +74,6 @@
 	<input type="range" bind:value={grid_size} min="4" max="100" step="1" />
 	{grid_size}
 </label>
-<button on:click={sketch}>Save Canvas 2</button>
 <div width="100">
 	<P5 {sketch} />
 </div>

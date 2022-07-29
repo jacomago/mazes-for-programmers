@@ -69,6 +69,7 @@
 	};
 </script>
 
+<h2>sidwinder_demo</h2>
 <label>
 	Grid Size
 	<input type="range" bind:value={grid_size} min="4" max="100" step="1" />
