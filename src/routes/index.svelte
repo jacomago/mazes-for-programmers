@@ -3,7 +3,6 @@
 	import type * as p5 from 'p5';
 	import { Sidewinder } from '$lib/sidewinder';
 	import { ColoredGrid } from '$lib/colored_grid';
-	import type { DistanceGrid } from '$lib/distance_grid';
 	import { Distances } from '$lib/distances';
 	import type { Cell } from '$lib/cell';
 	import type { Grid } from '$lib/grid';
@@ -110,7 +109,6 @@
 			update();
 			p.translate(border, border);
 			grid_distance.draw(p, cell_size, 0, true);
-			//grid_distance.draw_graph(cell_size, 200);
 		};
 	};
 </script>

@@ -2,20 +2,9 @@
 import type { Color } from "p5";
 import type * as p5 from "p5";
 import type { Cell } from "./cell";
-import type { Distances } from "./distances";
-import { Grid } from "./grid";
+import { DistanceGrid } from "./distance_grid";
 
-export class ColoredGrid extends Grid {
-    distances: Distances;
-    maximum: number;
-    set_distances(distances: Distances) {
-        this.distances = distances;
-        this.maximum = distances.max().distance;
-    }
-
-    get_distances() {
-        return this.distances;
-    }
+export class ColoredGrid extends DistanceGrid {
     background_color_for(p: p5, cell: Cell): Color | undefined {
         const distance = this.distances.get(cell);
         if (distance == undefined) {
