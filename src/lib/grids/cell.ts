@@ -32,6 +32,30 @@ export class Cell {
         return this;
     }
 
+    neighbours(): Cell[] {
+        const s: Cell[] = [];
+        if (this.north != null) {
+            s.push(this.north);
+        }
+        if (this.east != null) {
+            s.push(this.east);
+        }
+        if (this.south != null) {
+            s.push(this.south);
+        }
+        if (this.west != null) {
+            s.push(this.west);
+        }
+        return s;
+
+    }
+    
+    rand_neighbour(): Cell {
+        const n = this.neighbours();
+        const r = Math.floor(Math.random() * n.length);
+        return n[r];
+    }
+
     centre(cell_size: number) {
         const d = cell_size;
         const x = (this.column + 0.5) * d;
