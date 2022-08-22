@@ -1,15 +1,17 @@
 <script lang="ts">
 	import P5, { type Sketch } from 'p5-svelte';
 	import type * as p5 from 'p5';
-	import type { Grid } from '$lib/grids/grid';
-	import { setup_binary_tree_grid } from '$lib/bin/binary_tree_demo';
+	import type { DistanceGrid } from '$lib/grids/distance_grid';
+	import type { Cell } from '$lib/grids/cell';
+	import { aldous_colored_grid } from '$lib/bin/aldousbroder';
+
 	let grid_size = 15;
 
 	let sketch: Sketch = function (p: p5) {
 		let grid_size_value: number;
 		let border: number;
 		let cell_size: number;
-		let grid_distance: Grid;
+		let grid_distance: DistanceGrid;
 		p.preload = (): void => {};
 		p.setup = (): void => {
 			console.log('🚀 - Setup initialized - P5 is running');
@@ -28,12 +30,26 @@
 			calcCellSize(grid_size_value);
 
 			console.log('make grid');
-			grid_distance = setup_binary_tree_grid(grid_size_value);
+			grid_distance = aldous_colored_grid(grid_size_value);
 			p.frameRate(10);
 		};
 
+		function init_distances(in_start?: Cell) {
+			let start = in_start ?? grid_distance.get(0, 0);
+			console.log('init grid at ' + start.row + ' ' + start.column);
+			grid_distance.set_distances(start.distances());
+		}
+		p.mousePressed = (): void => {
+			console.log('mouse pressed ' + p.mouseX + ' ' + p.mouseY);
+			let column = Math.floor(p.mouseX / cell_size) - 1;
+			let row = Math.floor(p.mouseY / cell_size) - 1;
+			console.log('mouse pressed at grid point' + row + ' ' + column);
+			let cell = grid_distance.get(row, column);
+			init_distances(cell);
+		};
+
 		function saveAsCanvas() {
-			p.save('output_canvas' + 'colored_longest_path' + '.png');
+			p.save('output_canvas' + 'aldous coloured' + '.png');
 		}
 
 		function calcCellSize(grid_size: number) {
@@ -50,7 +66,7 @@
 			if (Math.abs(current_val - grid_size_value) > 0) {
 				grid_size_value = current_val;
 				calcCellSize(grid_size_value);
-				grid_distance = setup_binary_tree_grid(grid_size_value);
+				grid_distance = aldous_colored_grid(grid_size_value);
 			}
 		}
 
@@ -63,13 +79,12 @@
 			p.background(255);
 			update();
 			p.translate(border, border);
-			grid_distance.draw(p, cell_size, 0, true);
-			//grid_distance.draw_graph(cell_size, 200);
+			grid_distance.draw(p, cell_size, 0, false);
 		};
 	};
 </script>
 
-<h2>binary_tree_demo</h2>
+<h2>aldousbroder</h2>
 <label>
 	Grid Size
 	<input type="range" bind:value={grid_size} min="4" max="100" step="1" />

@@ -3,7 +3,7 @@
 	import type * as p5 from 'p5';
 	import type { DistanceGrid } from '$lib/grids/distance_grid';
 	import type { Cell } from '$lib/grids/cell';
-	import { aldous_colored_grid } from '$lib/bin/aldousbroder';
+	import { wilson_colored_grid } from '$lib/bin/wilson';
 
 	let grid_size = 15;
 
@@ -30,7 +30,7 @@
 			calcCellSize(grid_size_value);
 
 			console.log('make grid');
-			grid_distance = aldous_colored_grid(grid_size_value);
+			grid_distance = wilson_colored_grid(grid_size_value);
 			p.frameRate(10);
 		};
 
@@ -66,7 +66,7 @@
 			if (Math.abs(current_val - grid_size_value) > 0) {
 				grid_size_value = current_val;
 				calcCellSize(grid_size_value);
-				grid_distance = aldous_colored_grid(grid_size_value);
+				grid_distance = wilson_colored_grid(grid_size_value);
 			}
 		}
 
@@ -84,7 +84,7 @@
 	};
 </script>
 
-<h2>aldousbroder</h2>
+<h2>wilson</h2>
 <label>
 	Grid Size
 	<input type="range" bind:value={grid_size} min="4" max="100" step="1" />

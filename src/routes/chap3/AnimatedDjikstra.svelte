@@ -100,6 +100,7 @@
 		};
 	};
 </script>
+
 <h2>Animated djikstra</h2>
 <label>
 	Grid Size
