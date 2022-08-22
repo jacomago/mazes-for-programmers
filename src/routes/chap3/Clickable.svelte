@@ -49,7 +49,7 @@
 		};
 
 		function saveAsCanvas() {
-			p.save('output_canvas' + 'colored_longest_path' + '.png');
+			p.save('output_canvas' + 'clickable' + '.png');
 		}
 
 		function calcCellSize(grid_size: number) {
