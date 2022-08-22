@@ -1,5 +1,5 @@
-import type { Cell } from "./cell";
-import type { Grid } from "./grid";
+import type { Cell } from "../grids/cell";
+import type { Grid } from "../grids/grid";
 
 
 export class BinaryTree {

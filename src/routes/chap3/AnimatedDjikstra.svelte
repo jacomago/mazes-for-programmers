@@ -1,13 +1,13 @@
 <script lang="ts">
 	import P5, { type Sketch } from 'p5-svelte';
 	import type * as p5 from 'p5';
-	import { Sidewinder } from '$lib/sidewinder';
-	import { ColoredGrid } from '$lib/colored_grid';
-	import type { DistanceGrid } from '$lib/distance_grid';
-	import { Distances } from '$lib/distances';
-	import type { Cell } from '$lib/cell';
-	import type { Grid } from '$lib/grid';
-	import { step_distance } from '$lib/djikstra';
+	import { Sidewinder } from '$lib/generators/sidewinder';
+	import { ColoredGrid } from '$lib/grids/colored_grid';
+	import type { DistanceGrid } from '$lib/grids/distance_grid';
+	import { Distances } from '$lib/distances/distances';
+	import type { Cell } from '$lib/grids/cell';
+	import type { Grid } from '$lib/grids/grid';
+	import { step_distance } from '$lib/distances/djikstra';
 	let grid_size = 15;
 
 	function init_grid(grid_size: number): ColoredGrid {

@@ -1,6 +1,6 @@
 
 import type * as p5 from "p5";
-import { cell_distances } from "./djikstra";
+import { cell_distances } from "../distances/djikstra";
 
 interface Coords {
     x1: number, y1: number, x2: number, y2: number

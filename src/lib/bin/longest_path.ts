@@ -1,5 +1,5 @@
-import { DistanceGrid } from "$lib/distance_grid";
-import { Sidewinder } from "$lib/sidewinder";
+import { DistanceGrid } from "$lib/grids/distance_grid";
+import { Sidewinder } from "$lib/generators/sidewinder";
 
 
 export function longest_path_grid(grid_size: number): DistanceGrid {

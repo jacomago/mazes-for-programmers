@@ -1,5 +1,5 @@
 
-import type { Cell } from "./cell";
+import type { Cell } from "../grids/cell";
 import { Distances } from "./distances";
 
 

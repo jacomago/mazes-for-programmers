@@ -1,7 +1,7 @@
 <script lang="ts">
 	import P5, { type Sketch } from 'p5-svelte';
 	import type * as p5 from 'p5';
-	import type { Grid } from '$lib/grid';
+	import type { Grid } from '$lib/grids/grid';
 	import { setup_binary_tree_grid } from '$lib/bin/binary_tree_demo';
 	let grid_size = 15;
 

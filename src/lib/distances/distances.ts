@@ -1,4 +1,4 @@
-import type { Cell } from "./cell";
+import type { Cell } from "../grids/cell";
 
 
 export class Distances {

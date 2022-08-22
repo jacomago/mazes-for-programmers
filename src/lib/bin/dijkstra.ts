@@ -1,5 +1,5 @@
-import { DistanceGrid } from "../distance_grid";
-import { Sidewinder } from "../sidewinder";
+import { DistanceGrid } from "../grids/distance_grid";
+import { Sidewinder } from "../generators/sidewinder";
 
 
 export function setup_distance_grid(grid_size: number): DistanceGrid {

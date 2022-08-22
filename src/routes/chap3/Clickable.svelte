@@ -1,9 +1,9 @@
 <script lang="ts">
 	import P5, { type Sketch } from 'p5-svelte';
 	import type * as p5 from 'p5';
-	import type { DistanceGrid } from '$lib/distance_grid';
+	import type { DistanceGrid } from '$lib/grids/distance_grid';
+	import type { Cell } from '$lib/grids/cell';
 	import { colored_grid } from '$lib/bin/coloring';
-	import type { Cell } from '$lib/cell';
 
 	let grid_size = 15;
 

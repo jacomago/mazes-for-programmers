@@ -1,5 +1,5 @@
-import { BinaryTree } from "$lib/binary_tree";
-import { Grid } from "$lib/grid";
+import { BinaryTree } from "$lib/generators/binary_tree";
+import { Grid } from "$lib/grids/grid";
 
 
 

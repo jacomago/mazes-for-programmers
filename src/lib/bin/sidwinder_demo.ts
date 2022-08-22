@@ -1,5 +1,5 @@
-import { Grid } from "$lib/grid";
-import { Sidewinder } from "$lib/sidewinder";
+import { Grid } from "$lib/grids/grid";
+import { Sidewinder } from "$lib/generators/sidewinder";
 
 
 export function setup_sidewinder_grid(grid_size: number): Grid {

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import P5, { type Sketch } from 'p5-svelte';
 	import type * as p5 from 'p5';
-	import type { Grid } from '$lib/grid';
+	import type { Grid } from '$lib/grids/grid';
 	import { longest_path_grid } from '$lib/bin/longest_path';
 	let grid_size = 15;
 
