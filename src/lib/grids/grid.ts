@@ -111,4 +111,13 @@ export class Grid {
 	background_color_for(p: p5, cell: Cell): Color | undefined {
 		return;
 	}
+
+	deadends() {
+		const cells = [];
+
+		for (const cell of this.cells()) {
+			if (cell.link_keys().size == 1) { cells.push(cell) }
+		}
+		return cells;
+	}
 }
