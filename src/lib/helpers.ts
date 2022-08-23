@@ -7,4 +7,12 @@ export class Helpers {
 		}
 		return array[Math.floor(Math.random() * array.length)];
 	}
+
+	static sampleSet(set: Set<Cell>) {
+		if (set.size == 0) {
+			return undefined;
+		}
+		const array = Array.from(set.values());
+		return array[Math.floor(Math.random() * array.length)];
+	}
 }

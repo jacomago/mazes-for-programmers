@@ -160,7 +160,7 @@ export class Cell {
 
 	toString() {
 		return (
-			this.row + ', ' + this.column + ', ' + this.linksString() + ' ' + this.neighboursString()
+			'cell: ' + this.row + ', ' + this.column + ', ' + this.linksString() + ' ' + this.neighboursString()
 		);
 	}
 }

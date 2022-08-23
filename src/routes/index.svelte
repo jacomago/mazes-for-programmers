@@ -57,7 +57,7 @@
 		}
 
 		p.windowResized = (): void => {
-			p.resizeCanvas(p.windowWidth, p.windowWidth);
+			p.resizeCanvas(p.displayWidth, p.windowWidth);
 			calcCellSize(grid_size_value);
 		};
 
