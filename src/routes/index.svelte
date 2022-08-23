@@ -5,14 +5,15 @@
 	let attempts = 10;
 </script>
 
-<h2>hunted</h2>
+<h2>compare deadends</h2>
 <label>
-	Grid Size
+	Grid Size:
 	<input type="range" bind:value={grid_size} min="4" max="100" step="1" />
 	{grid_size}
 </label>
+<p />
 <label>
-	attempts
+	Attempts:
 	<input type="range" bind:value={attempts} min="4" max="100" step="1" />
 	{attempts}
 </label>
