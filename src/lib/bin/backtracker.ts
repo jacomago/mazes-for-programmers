@@ -8,8 +8,8 @@ export function backtrack_colored_grid(
     origin_y = Math.floor(grid_size / 2)
 ): DistanceGrid {
     const grid = new ColoredGrid(grid_size, grid_size);
-    RecursiveBacktracker.on(grid);
     const start = grid.get(origin_x, origin_y);
+    RecursiveBacktracker.on(grid, start);
     grid.set_distances(start.distances());
     return grid;
 }
