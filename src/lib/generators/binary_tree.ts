@@ -1,14 +1,13 @@
+import { Direction } from '$lib/grids/directions';
 import type { Cell } from '../grids/cell';
 import type { Grid } from '../grids/grid';
 
 export class BinaryTree {
-	static on(grid: Grid) {
+	static on(grid: Grid, directions = [Direction.North, Direction.East]) {
 		const cells = grid.cells();
 		for (let cell_index = 0; cell_index < cells.length; cell_index++) {
 			const cell = cells[cell_index];
-			const neighbours: Cell[] = [];
-			if (cell.north() != undefined) neighbours.push(cell.north());
-			if (cell.east() != undefined) neighbours.push(cell.east());
+			const neighbours: Cell[] = cell.neighbours(directions);
 
 			if (neighbours.length > 0) {
 				const index = Math.floor(Math.random() * neighbours.length);

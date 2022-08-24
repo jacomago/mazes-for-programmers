@@ -4,3 +4,5 @@ export enum Direction {
     East,
     West
 }
+
+export const standard_directions = [Direction.North, Direction.West, Direction.South, Direction.East];

@@ -1,6 +1,7 @@
 import type { Color } from 'p5';
 import type * as p5 from 'p5';
 import { Cell } from './cell';
+import { Direction } from './directions';
 
 export class Grid {
 	rows: number;
@@ -33,10 +34,10 @@ export class Grid {
 	configure_cells() {
 		for (let row = 0; row < this.rows; row++) {
 			for (let col = 0; col < this.columns; col++) {
-				this.grid[row][col].setNorth(this.get(row - 1, col));
-				this.grid[row][col].setSouth(this.get(row + 1, col));
-				this.grid[row][col].setWest(this.get(row, col - 1));
-				this.grid[row][col].setEast(this.get(row, col + 1));
+				this.grid[row][col].setDirection(Direction.North, this.get(row - 1, col));
+				this.grid[row][col].setDirection(Direction.South, this.get(row + 1, col));
+				this.grid[row][col].setDirection(Direction.West, this.get(row, col - 1));
+				this.grid[row][col].setDirection(Direction.East, this.get(row, col + 1));
 			}
 		}
 	}

@@ -1,3 +1,4 @@
+import { Direction } from '$lib/grids/directions';
 import type { Cell } from '../grids/cell';
 import type { Grid } from '../grids/grid';
 
@@ -11,8 +12,8 @@ export class Sidewinder {
 				const cell = row[cell_index];
 				run.push(cell);
 
-				const at_eastern_boundary = cell.east == null;
-				const at_northern_boundary = cell.north == null;
+				const at_eastern_boundary = cell.direction(Direction.East) == undefined;
+				const at_northern_boundary = cell.direction(Direction.North) == undefined;
 
 				const should_close_out =
 					at_eastern_boundary || (!at_northern_boundary && Math.floor(Math.random() * 2) == 0);
@@ -20,11 +21,11 @@ export class Sidewinder {
 				if (should_close_out) {
 					const index = Math.floor(Math.random() * run.length);
 					const member = run[index];
-					if (member.north != null) member.link(member.north());
+					if (member.direction(Direction.North) != undefined) member.link(member.direction(Direction.North));
 					run = [];
 				} else {
-					if (cell.east != undefined) {
-						cell.link(cell.east());
+					if (cell.direction(Direction.East) != undefined) {
+						cell.link(cell.direction(Direction.East));
 					}
 				}
 			}
