@@ -33,10 +33,10 @@ export class Grid {
 	configure_cells() {
 		for (let row = 0; row < this.rows; row++) {
 			for (let col = 0; col < this.columns; col++) {
-				this.grid[row][col].north = this.get(row - 1, col);
-				this.grid[row][col].south = this.get(row + 1, col);
-				this.grid[row][col].west = this.get(row, col - 1);
-				this.grid[row][col].east = this.get(row, col + 1);
+				this.grid[row][col].setNorth(this.get(row - 1, col));
+				this.grid[row][col].setSouth(this.get(row + 1, col));
+				this.grid[row][col].setWest(this.get(row, col - 1));
+				this.grid[row][col].setEast(this.get(row, col + 1));
 			}
 		}
 	}

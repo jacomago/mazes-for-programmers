@@ -20,11 +20,11 @@ export class Sidewinder {
 				if (should_close_out) {
 					const index = Math.floor(Math.random() * run.length);
 					const member = run[index];
-					if (member.north != null) member.link(member.north);
+					if (member.north != null) member.link(member.north());
 					run = [];
 				} else {
 					if (cell.east != undefined) {
-						cell.link(cell.east);
+						cell.link(cell.east());
 					}
 				}
 			}
