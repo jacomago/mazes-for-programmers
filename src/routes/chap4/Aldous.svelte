@@ -4,14 +4,19 @@
 	import type { DistanceGrid } from '$lib/grids/distance_grid';
 	import type { Cell } from '$lib/grids/cell';
 	import { aldous_colored_grid } from '$lib/bin/aldousbroder';
+	import { Direction } from '$lib/grids/directions';
 
 	let grid_size = 15;
+	let south_weight = 0.25;
+	let west_weight = 0.25;
+	let north_weight = 0.25;
 
 	let sketch: Sketch = function (p: p5) {
 		let grid_size_value: number;
 		let border: number;
 		let cell_size: number;
 		let grid_distance: DistanceGrid;
+		let curr_weights: Map<Direction, number>;
 		p.preload = (): void => {};
 		p.setup = (): void => {
 			console.log('🚀 - Setup initialized - P5 is running');
@@ -30,7 +35,8 @@
 			calcCellSize(grid_size_value);
 
 			console.log('make grid');
-			grid_distance = aldous_colored_grid(grid_size_value);
+			curr_weights = calcWeights();
+			grid_distance = aldous_colored_grid(grid_size_value, curr_weights);
 			p.frameRate(10);
 		};
 
@@ -66,12 +72,32 @@
 			if (Math.abs(current_val - grid_size_value) > 0) {
 				grid_size_value = current_val;
 				calcCellSize(grid_size_value);
-				grid_distance = aldous_colored_grid(grid_size_value);
+				grid_distance = aldous_colored_grid(grid_size_value, curr_weights);
+			}
+		}
+
+		function calcWeights() {
+			return new Map([
+				[Direction.South, south_weight],
+				[Direction.West, west_weight],
+				[Direction.North, north_weight],
+				[Direction.East, east_weight()]
+			]);
+		}
+		function update_weights() {
+			if (
+				Math.abs(curr_weights.get(Direction.South) - south_weight) > 0 ||
+				Math.abs(curr_weights.get(Direction.North) - north_weight) > 0 ||
+				Math.abs(curr_weights.get(Direction.West) - west_weight) > 0
+			) {
+				curr_weights = calcWeights();
+				grid_distance = aldous_colored_grid(grid_size_value, curr_weights);
 			}
 		}
 
 		function update() {
 			update_grid_size_value();
+			update_weights();
 		}
 
 		// p5 WILL HANDLE REQUESTING ANIMATION FRAMES FROM THE BROWSER AND WIL RUN DRAW() EACH ANIMATION FROME
@@ -82,6 +108,10 @@
 			grid_distance.draw(p, cell_size, 0, false);
 		};
 	};
+
+	function east_weight() {
+		return 1 - (south_weight + west_weight + north_weight);
+	}
 </script>
 
 <h2>aldousbroder</h2>
@@ -90,6 +120,30 @@
 	<input type="range" bind:value={grid_size} min="4" max="100" step="1" />
 	{grid_size}
 </label>
+<br />
+weights must be close to 0.25 as otherwise the random walk will not necessarily finish covering every
+part of the grid.
+<label>
+	South
+	<input type="range" bind:value={south_weight} min="0.24" max="0.26" step="0.001" />
+	{south_weight}
+</label>
+<br />
+<label>
+	West
+	<input type="range" bind:value={west_weight} min="0.24" max="0.26" step="0.001" />
+	{west_weight}
+</label>
+<br />
+<label>
+	North
+	<input type="range" bind:value={north_weight} min="0.24" max="0.26" step="0.001" />
+	{north_weight}
+</label>
+<br />
+East
+{east_weight()}
+
 <div width="100">
 	<P5 {sketch} />
 </div>

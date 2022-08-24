@@ -86,7 +86,7 @@ export class Cell {
 
 		let min = 0;
 		for (const d of neighbour_keys) {
-			const val = Cell.weight(d, weights);
+			const val = Cell.weight(d, weights) ;
 			const max = min + val;
 			if (max > r && r >= min) {
 				return this.neighbours_map.get(d);
