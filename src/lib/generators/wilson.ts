@@ -1,9 +1,10 @@
 import type { Cell } from '$lib/grids/cell';
+import { default_weights } from '$lib/grids/directions';
 import type { Grid } from '$lib/grids/grid';
 import { Helpers } from '$lib/helpers';
 
 export class Wilson {
-	static on(grid: Grid) {
+	static on(grid: Grid, weights = default_weights) {
 		const unvisited = new Set(grid.cells());
 
 		const first: Cell = Helpers.sampleSet(unvisited);
@@ -13,7 +14,7 @@ export class Wilson {
 			let cell = Helpers.sampleSet(unvisited);
 			let path = [cell];
 			while (unvisited.has(cell)) {
-				cell = cell.rand_neighbour();
+				cell = cell.rand_neighbour(weights);
 				const position = path.indexOf(cell);
 
 				if (position != -1) {

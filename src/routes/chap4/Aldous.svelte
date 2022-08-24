@@ -121,8 +121,10 @@
 	{grid_size}
 </label>
 <br />
-weights must be close to 0.25 as otherwise the random walk will not necessarily finish covering every
-part of the grid.
+<p>
+	weights must be close to 0.25 as otherwise the random walk will not necessarily finish covering
+	every part of the grid.
+</p>
 <label>
 	South
 	<input type="range" bind:value={south_weight} min="0.24" max="0.26" step="0.001" />
