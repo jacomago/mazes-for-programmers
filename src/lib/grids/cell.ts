@@ -61,8 +61,38 @@ export class Cell {
 		}
 	}
 
-	rand_neighbour(): Cell {
-		return Helpers.sample(this.neighbours());
+	static weight(d: Direction, weights: Map<Direction, number>) {
+		if (weights.has(d)) return weights.get(d);
+		return 0.0;
+	}
+
+	// TODO Pretty nasty way of doing a weighted random selection
+	// probably a neater way
+	rand_neighbour(
+		weights = new Map([
+			[Direction.North, 0.25],
+			[Direction.East, 0.25],
+			[Direction.South, 0.25],
+			[Direction.West, 0.25]
+		])
+	): Cell {
+		const seed = Math.random();
+		const poss_directions = Array.from(this.neighbours_map.keys());
+		const weight_sum = poss_directions
+			.map((d) => Cell.weight(d, weights))
+			.reduce((total, current) => total + current);
+		const r = seed * weight_sum;
+
+		let min = 0;
+		for (const d of this.neighbours_map.keys()) {
+			const val = Cell.weight(d, weights) ;
+			const max = min + val;
+			if (max > r && r >= min) {
+				return this.neighbours_map.get(d);
+			}
+			min += val;
+		}
+		return undefined;
 	}
 
 	centre(cell_size: number) {
