@@ -21,7 +21,8 @@ export class Sidewinder {
 				if (should_close_out) {
 					const index = Math.floor(Math.random() * run.length);
 					const member = run[index];
-					if (member.direction(Direction.North) != undefined) member.link(member.direction(Direction.North));
+					if (member.direction(Direction.North) != undefined)
+						member.link(member.direction(Direction.North));
 					run = [];
 				} else {
 					if (cell.direction(Direction.East) != undefined) {

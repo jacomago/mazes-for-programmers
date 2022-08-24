@@ -61,10 +61,8 @@ export class Grid {
 
 	rand_linked_cell() {
 		const ccells = this.linked_cells();
-		if (ccells.length > 0)
-			return ccells[Math.floor(Math.random() * ccells.length)];
-		else
-			return this.rand_cell();
+		if (ccells.length > 0) return ccells[Math.floor(Math.random() * ccells.length)];
+		else return this.rand_cell();
 	}
 
 	size() {
@@ -85,8 +83,7 @@ export class Grid {
 		const cells: Cell[] = [];
 		for (let row = 0; row < this.rows; row++) {
 			for (let col = 0; col < this.columns; col++) {
-				if (this.grid[row][col].link_keys().size == 0)
-					cells.push(this.grid[row][col]);
+				if (this.grid[row][col].link_keys().size == 0) cells.push(this.grid[row][col]);
 			}
 		}
 		return cells;
@@ -95,8 +92,7 @@ export class Grid {
 		const cells: Cell[] = [];
 		for (let row = 0; row < this.rows; row++) {
 			for (let col = 0; col < this.columns; col++) {
-				if (this.grid[row][col].link_keys().size != 0)
-					cells.push(this.grid[row][col]);
+				if (this.grid[row][col].link_keys().size != 0) cells.push(this.grid[row][col]);
 			}
 		}
 		return cells;
@@ -147,12 +143,25 @@ export class Grid {
 		return;
 	}
 
-	deadends() {
-		const cells = [];
+	deadends(): Cell[] {
+		return this.cells().filter((cell) => cell.isDeadend());
+	}
 
-		for (const cell of this.cells()) {
-			if (cell.link_keys().size == 1) { cells.push(cell) }
-		}
-		return cells;
+	filtered_cells_direction(directions: Direction[]): Cell[] {
+		return this.cells().filter((cell) => cell.isDirections(directions));
+	}
+	horizontal(): Cell[] {
+		return this.filtered_cells_direction([Direction.East, Direction.West]);
+	}
+	vertical(): Cell[] {
+		return this.filtered_cells_direction([Direction.North, Direction.South]);
+	}
+	cross(): Cell[] {
+		return this.filtered_cells_direction([
+			Direction.North,
+			Direction.South,
+			Direction.East,
+			Direction.West
+		]);
 	}
 }

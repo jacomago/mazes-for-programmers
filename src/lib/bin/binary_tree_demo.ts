@@ -9,7 +9,6 @@ export function setup_binary_tree_grid(grid_size: number): Grid {
 }
 
 export function setup_bias_binary_tree_grid(grid_size: number, directions: Direction[]) {
-
 	const grid = new Grid(grid_size, grid_size);
 	BinaryTree.on(grid, directions);
 	return grid;

@@ -3,9 +3,9 @@ import { AldousBroder } from './aldousbroder';
 import { BinaryTree } from './binary_tree';
 
 export class BinaryAldous {
-    static on(grid: Grid, amount = 20) {
-        BinaryTree.on(grid, undefined, amount);
-        AldousBroder.on(grid);
-        return grid;
+	static on(grid: Grid, amount = 20) {
+		BinaryTree.on(grid, undefined, amount);
+		AldousBroder.on(grid);
+		return grid;
 	}
 }

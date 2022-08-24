@@ -35,7 +35,9 @@ export class Cell {
 		return this;
 	}
 
-	neighbours(directions = [Direction.North, Direction.East, Direction.South, Direction.West]): Cell[] {
+	neighbours(
+		directions = [Direction.North, Direction.East, Direction.South, Direction.West]
+	): Cell[] {
 		const s: Cell[] = [];
 		for (const d of directions) {
 			if (this.neighbours_map.has(d)) {
@@ -46,7 +48,6 @@ export class Cell {
 	}
 
 	direction(d: Direction) {
-
 		if (this.neighbours_map.has(d)) {
 			return this.neighbours_map.get(d);
 		}
@@ -95,6 +96,24 @@ export class Cell {
 		};
 	}
 
+	isDeadend(): boolean {
+		if (this.link_keys().size == 1) return true;
+		return false;
+	}
+
+	isDirections(directions: Direction[]): boolean {
+		let poss = true;
+		for (const d of directions) {
+			if (!this.linked(this.direction(d))) {
+				poss = false;
+			}
+		}
+		if (poss) {
+			return true;
+		}
+		return false;
+	}
+
 	draw(p: p5, cell_size: number, thickness = 0, c = p.color(255, 255, 255), contents = ' ') {
 		const coords = this.coords(cell_size, thickness);
 		this.draw_rect(p, coords, cell_size, c);
@@ -112,10 +131,14 @@ export class Cell {
 	draw_walls(p: p5, coords: Coords) {
 		p.stroke(0);
 
-		if (!this.linked(this.direction(Direction.North))) p.line(coords.x1, coords.y1, coords.x2, coords.y1); // north
-		if (!this.linked(this.direction(Direction.West))) p.line(coords.x1, coords.y1, coords.x1, coords.y2); // west
-		if (!this.linked(this.direction(Direction.East))) p.line(coords.x2, coords.y1, coords.x2, coords.y2); // east
-		if (!this.linked(this.direction(Direction.South))) p.line(coords.x1, coords.y2, coords.x2, coords.y2); // south
+		if (!this.linked(this.direction(Direction.North)))
+			p.line(coords.x1, coords.y1, coords.x2, coords.y1); // north
+		if (!this.linked(this.direction(Direction.West)))
+			p.line(coords.x1, coords.y1, coords.x1, coords.y2); // west
+		if (!this.linked(this.direction(Direction.East)))
+			p.line(coords.x2, coords.y1, coords.x2, coords.y2); // east
+		if (!this.linked(this.direction(Direction.South)))
+			p.line(coords.x1, coords.y2, coords.x2, coords.y2); // south
 	}
 
 	draw_graph(p: p5, cell_size: number, color: number) {
@@ -124,7 +147,12 @@ export class Cell {
 
 		for (const d of standard_directions) {
 			if (this.linked(this.direction(d))) {
-				p.line(c[0], c[1], this.direction(d).centre(cell_size)[0], this.direction(d).centre(cell_size)[1]);
+				p.line(
+					c[0],
+					c[1],
+					this.direction(d).centre(cell_size)[0],
+					this.direction(d).centre(cell_size)[1]
+				);
 			}
 		}
 	}
@@ -147,7 +175,6 @@ export class Cell {
 	neighboursString() {
 		let s = 'neighbours: [';
 		for (const d of this.neighbours_map.keys()) {
-
 			s += Direction[d] + ',';
 		}
 		s += ']';
@@ -156,7 +183,14 @@ export class Cell {
 
 	toString() {
 		return (
-			'cell: ' + this.row + ', ' + this.column + ', ' + this.linksString() + ' ' + this.neighboursString()
+			'cell: ' +
+			this.row +
+			', ' +
+			this.column +
+			', ' +
+			this.linksString() +
+			' ' +
+			this.neighboursString()
 		);
 	}
 }

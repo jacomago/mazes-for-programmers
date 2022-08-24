@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { comparison_deadends } from '$lib/bin/comparison';
+	import { comparisons, Property } from '$lib/bin/comparison';
 
 	let grid_size = 15;
 	let attempts = 10;
@@ -18,7 +18,10 @@
 	{attempts}
 </label>
 <div width="100">
-	{#each Array.from(comparison_deadends(grid_size, attempts).entries()) as pair}
-		<p>{pair[0]}: {pair[1]} %</p>
+	{#each Array.from(comparisons(grid_size, attempts).entries()) as pair}
+		<h3>{pair[0]}:</h3>
+		{#each Array.from(pair[1].entries()) as res}
+			<p>{Property[res[0]]} : {res[1]} %</p>
+		{/each}
 	{/each}
 </div>
