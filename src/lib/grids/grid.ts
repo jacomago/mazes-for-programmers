@@ -156,7 +156,7 @@ export class Grid {
 	vertical(): Cell[] {
 		return this.filtered_cells_direction([Direction.North, Direction.South]);
 	}
-	
+
 	cross(): Cell[] {
 		return this.filtered_cells_direction([
 			Direction.North,

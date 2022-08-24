@@ -2,7 +2,14 @@ import { Direction } from '$lib/grids/directions';
 import type { Grid } from '../grids/grid';
 
 export class BinaryTree {
-	static on(grid: Grid, weights = new Map([[Direction.North,0.5],  [Direction.East, 0.5]]), halt?: number) {
+	static on(
+		grid: Grid,
+		weights = new Map([
+			[Direction.North, 0.5],
+			[Direction.East, 0.5]
+		]),
+		halt?: number
+	) {
 		const cells = grid.cells();
 
 		for (

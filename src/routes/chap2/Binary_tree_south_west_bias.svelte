@@ -87,7 +87,7 @@
 	};
 </script>
 
-<h2>binary_tree_ south west</h2>
+<h2>binary_tree_ south west weighted</h2>
 <label>
 	Grid Size
 	<input type="range" bind:value={grid_size} min="4" max="100" step="1" />

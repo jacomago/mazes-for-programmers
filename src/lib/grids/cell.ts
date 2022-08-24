@@ -1,4 +1,3 @@
-
 import type * as p5 from 'p5';
 import { cell_distances } from '../distances/djikstra';
 import { Direction, standard_directions } from './directions';
@@ -85,7 +84,7 @@ export class Cell {
 
 		let min = 0;
 		for (const d of this.neighbours_map.keys()) {
-			const val = Cell.weight(d, weights) ;
+			const val = Cell.weight(d, weights);
 			const max = min + val;
 			if (max > r && r >= min) {
 				return this.neighbours_map.get(d);
