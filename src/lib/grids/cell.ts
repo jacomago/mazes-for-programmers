@@ -1,6 +1,6 @@
 import type * as p5 from 'p5';
 import { cell_distances } from '../distances/djikstra';
-import { Direction, standard_directions } from './directions';
+import { default_weights, Direction, standard_directions } from './directions';
 
 interface Coords {
 	x1: number;
@@ -65,25 +65,27 @@ export class Cell {
 		return 0.0;
 	}
 
+	unlinked_neighbours_directions(): Direction[] {
+		return Array.from(this.neighbours_map.keys()).filter((d) => !this.linked(this.direction(d)));
+	}
+	linked_neighbours_directions(): Direction[] {
+		return Array.from(this.neighbours_map.keys()).filter((d) => this.linked(this.direction(d)));
+	}
 	// TODO Pretty nasty way of doing a weighted random selection
 	// probably a neater way
 	rand_neighbour(
-		weights = new Map([
-			[Direction.North, 0.25],
-			[Direction.East, 0.25],
-			[Direction.South, 0.25],
-			[Direction.West, 0.25]
-		])
+		weights = default_weights,
+		neighbour_keys = Array.from(this.neighbours_map.keys())
 	): Cell {
 		const seed = Math.random();
-		const poss_directions = Array.from(this.neighbours_map.keys());
+		const poss_directions = Array.from(neighbour_keys);
 		const weight_sum = poss_directions
 			.map((d) => Cell.weight(d, weights))
 			.reduce((total, current) => total + current);
 		const r = seed * weight_sum;
 
 		let min = 0;
-		for (const d of this.neighbours_map.keys()) {
+		for (const d of neighbour_keys) {
 			const val = Cell.weight(d, weights);
 			const max = min + val;
 			if (max > r && r >= min) {

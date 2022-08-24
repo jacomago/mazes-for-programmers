@@ -13,8 +13,7 @@ export class Wilson {
 			let cell = Helpers.sampleSet(unvisited);
 			let path = [cell];
 			while (unvisited.has(cell)) {
-				const n = cell.neighbours();
-				cell = Helpers.sample(n);
+				cell = cell.rand_neighbour();
 				const position = path.indexOf(cell);
 
 				if (position != -1) {
