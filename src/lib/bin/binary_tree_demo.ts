@@ -8,8 +8,8 @@ export function setup_binary_tree_grid(grid_size: number): Grid {
 	return grid;
 }
 
-export function setup_bias_binary_tree_grid(grid_size: number, directions: Direction[]) {
+export function setup_bias_binary_tree_grid(grid_size: number, weights: Map<Direction, number>) {
 	const grid = new Grid(grid_size, grid_size);
-	BinaryTree.on(grid, directions);
+	BinaryTree.on(grid, weights);
 	return grid;
 }

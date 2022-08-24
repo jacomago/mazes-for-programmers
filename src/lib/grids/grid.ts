@@ -148,12 +148,15 @@ export class Grid {
 	filtered_cells_direction(directions: Direction[]): Cell[] {
 		return this.cells().filter((cell) => cell.isDirections(directions));
 	}
+
 	horizontal(): Cell[] {
 		return this.filtered_cells_direction([Direction.East, Direction.West]);
 	}
+
 	vertical(): Cell[] {
 		return this.filtered_cells_direction([Direction.North, Direction.South]);
 	}
+	
 	cross(): Cell[] {
 		return this.filtered_cells_direction([
 			Direction.North,

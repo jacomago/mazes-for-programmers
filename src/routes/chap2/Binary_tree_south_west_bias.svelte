@@ -5,6 +5,10 @@
 	import { setup_bias_binary_tree_grid } from '$lib/bin/binary_tree_demo';
 	import { Direction } from '$lib/grids/directions';
 	let grid_size = 15;
+	let weights = new Map([
+		[Direction.South, 0.5],
+		[Direction.West, 0.5]
+	]);
 
 	let sketch: Sketch = function (p: p5) {
 		let grid_size_value: number;
@@ -29,10 +33,7 @@
 			calcCellSize(grid_size_value);
 
 			console.log('make grid');
-			grid_distance = setup_bias_binary_tree_grid(grid_size_value, [
-				Direction.South,
-				Direction.West
-			]);
+			grid_distance = setup_bias_binary_tree_grid(grid_size_value, weights);
 			p.frameRate(10);
 		};
 
@@ -54,10 +55,7 @@
 			if (Math.abs(current_val - grid_size_value) > 0) {
 				grid_size_value = current_val;
 				calcCellSize(grid_size_value);
-				grid_distance = setup_bias_binary_tree_grid(grid_size_value, [
-					Direction.South,
-					Direction.West
-				]);
+				grid_distance = setup_bias_binary_tree_grid(grid_size_value, weights);
 			}
 		}
 
