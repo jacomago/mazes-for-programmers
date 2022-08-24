@@ -11,3 +11,4 @@ export const standard_directions = [
 	Direction.South,
 	Direction.East
 ];
+

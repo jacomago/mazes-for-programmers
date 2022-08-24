@@ -14,8 +14,7 @@ export class BinaryTree {
 			const neighbours: Cell[] = cell.neighbours(directions);
 
 			if (neighbours.length > 0) {
-				const index = Math.floor(Math.random() * neighbours.length);
-				const neighbour = neighbours[index];
+				const neighbour = cell.rand_neighbour();
 				cell.link(neighbour);
 			}
 		}

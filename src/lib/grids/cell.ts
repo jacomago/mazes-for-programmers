@@ -1,3 +1,4 @@
+import { Helpers } from '$lib/helpers';
 import type * as p5 from 'p5';
 import { cell_distances } from '../distances/djikstra';
 import { Direction, standard_directions } from './directions';
@@ -61,9 +62,7 @@ export class Cell {
 	}
 
 	rand_neighbour(): Cell {
-		const n = this.neighbours();
-		const r = Math.floor(Math.random() * n.length);
-		return n[r];
+		return Helpers.sample(this.neighbours());
 	}
 
 	centre(cell_size: number) {

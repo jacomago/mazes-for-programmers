@@ -1,3 +1,4 @@
+import { Helpers } from '$lib/helpers';
 import type { Color } from 'p5';
 import type * as p5 from 'p5';
 import { Cell } from './cell';
@@ -49,19 +50,16 @@ export class Grid {
 	}
 
 	rand_cell() {
-		const row = Math.floor(Math.random() * this.rows);
-		const col = Math.floor(Math.random() * this.columns);
-		return this.grid[row][col];
+		return Helpers.sample(this.cells());
 	}
 
 	rand_unlinked_cell() {
-		const ccells = this.unlinked_cells();
-		return ccells[Math.floor(Math.random() * ccells.length)];
+		return Helpers.sample(this.unlinked_cells());
 	}
 
 	rand_linked_cell() {
 		const ccells = this.linked_cells();
-		if (ccells.length > 0) return ccells[Math.floor(Math.random() * ccells.length)];
+		if (ccells.length > 0) return Helpers.sample(ccells);
 		else return this.rand_cell();
 	}
 
