@@ -54,6 +54,19 @@ export class Grid {
 		return this.grid[row][col];
 	}
 
+	rand_unlinked_cell() {
+		const ccells = this.unlinked_cells();
+		return ccells[Math.floor(Math.random() * ccells.length)];
+	}
+
+	rand_linked_cell() {
+		const ccells = this.linked_cells();
+		if (ccells.length > 0)
+			return ccells[Math.floor(Math.random() * ccells.length)];
+		else
+			return this.rand_cell();
+	}
+
 	size() {
 		return this.rows * this.columns;
 	}
@@ -63,6 +76,27 @@ export class Grid {
 		for (let row = 0; row < this.rows; row++) {
 			for (let col = 0; col < this.columns; col++) {
 				cells.push(this.grid[row][col]);
+			}
+		}
+		return cells;
+	}
+
+	unlinked_cells() {
+		const cells: Cell[] = [];
+		for (let row = 0; row < this.rows; row++) {
+			for (let col = 0; col < this.columns; col++) {
+				if (this.grid[row][col].link_keys().size == 0)
+					cells.push(this.grid[row][col]);
+			}
+		}
+		return cells;
+	}
+	linked_cells() {
+		const cells: Cell[] = [];
+		for (let row = 0; row < this.rows; row++) {
+			for (let col = 0; col < this.columns; col++) {
+				if (this.grid[row][col].link_keys().size != 0)
+					cells.push(this.grid[row][col]);
 			}
 		}
 		return cells;
