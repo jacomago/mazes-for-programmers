@@ -5,16 +5,14 @@
 	import { setup_bias_binary_tree_grid } from '$lib/bin/binary_tree_demo';
 	import { Direction } from '$lib/grids/directions';
 	let grid_size = 15;
-	let weights = new Map([
-		[Direction.South, 0.5],
-		[Direction.West, 0.5]
-	]);
+	let south_weight = 0.5;
 
 	let sketch: Sketch = function (p: p5) {
 		let grid_size_value: number;
 		let border: number;
 		let cell_size: number;
 		let grid_distance: Grid;
+		let curr_weights: Map<Direction, number>;
 		p.preload = (): void => {};
 		p.setup = (): void => {
 			console.log('🚀 - Setup initialized - P5 is running');
@@ -33,7 +31,11 @@
 			calcCellSize(grid_size_value);
 
 			console.log('make grid');
-			grid_distance = setup_bias_binary_tree_grid(grid_size_value, weights);
+			curr_weights = new Map([
+				[Direction.South, south_weight],
+				[Direction.West, 1 - south_weight]
+			]);
+			grid_distance = setup_bias_binary_tree_grid(grid_size_value, curr_weights);
 			p.frameRate(10);
 		};
 
@@ -55,12 +57,23 @@
 			if (Math.abs(current_val - grid_size_value) > 0) {
 				grid_size_value = current_val;
 				calcCellSize(grid_size_value);
-				grid_distance = setup_bias_binary_tree_grid(grid_size_value, weights);
+				grid_distance = setup_bias_binary_tree_grid(grid_size_value, curr_weights);
+			}
+		}
+
+		function update_weights() {
+			if (Math.abs(curr_weights.get(Direction.South) - south_weight) > 0) {
+				curr_weights = new Map([
+					[Direction.South, south_weight],
+					[Direction.West, 1 - south_weight]
+				]);
+				grid_distance = setup_bias_binary_tree_grid(grid_size_value, curr_weights);
 			}
 		}
 
 		function update() {
 			update_grid_size_value();
+			update_weights();
 		}
 
 		// p5 WILL HANDLE REQUESTING ANIMATION FRAMES FROM THE BROWSER AND WIL RUN DRAW() EACH ANIMATION FROME
@@ -79,6 +92,12 @@
 	Grid Size
 	<input type="range" bind:value={grid_size} min="4" max="100" step="1" />
 	{grid_size}
+</label>
+<br />
+<label>
+	South
+	<input type="range" bind:value={south_weight} min="0" max="1" step="0.01" />
+	{south_weight}
 </label>
 <div width="100">
 	<P5 {sketch} />
