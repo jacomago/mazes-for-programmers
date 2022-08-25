@@ -112,10 +112,6 @@
 	{grid_size}
 </label>
 <br />
-<p>
-	weights must be close to 0.25 as otherwise the random walk will not necessarily finish covering
-	every part of the grid.
-</p>
 <label
 	>Vertical vs horizontal weight
 	<input type="range" bind:value={v_vs_h_weight} min="0.01" max="0.99" step="0.01" />

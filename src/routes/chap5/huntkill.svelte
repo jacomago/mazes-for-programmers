@@ -4,14 +4,18 @@
 	import type { DistanceGrid } from '$lib/grids/distance_grid';
 	import type { Cell } from '$lib/grids/cell';
 	import { huntkill_colored_grid } from '$lib/bin/huntkill';
+	import { Direction } from '$lib/grids/directions';
 
 	let grid_size = 15;
+	// Vertical vs horizontal weight
+	let v_vs_h_weight = 0.5;
 
 	let sketch: Sketch = function (p: p5) {
 		let grid_size_value: number;
 		let border: number;
 		let cell_size: number;
 		let grid_distance: DistanceGrid;
+		let curr_weights: Map<Direction, number>;
 		p.preload = (): void => {};
 		p.setup = (): void => {
 			console.log('🚀 - Setup initialized - P5 is running');
@@ -30,7 +34,8 @@
 			calcCellSize(grid_size_value);
 
 			console.log('make grid');
-			grid_distance = huntkill_colored_grid(grid_size_value);
+			curr_weights = calcWeights();
+			grid_distance = huntkill_colored_grid(grid_size_value, curr_weights);
 			p.frameRate(10);
 		};
 
@@ -66,14 +71,29 @@
 			if (Math.abs(current_val - grid_size_value) > 0) {
 				grid_size_value = current_val;
 				calcCellSize(grid_size_value);
-				grid_distance = huntkill_colored_grid(grid_size_value);
+				grid_distance = huntkill_colored_grid(grid_size_value, curr_weights);
+			}
+		}
+
+		function update_weights() {
+			if (Math.abs(curr_weights.get(Direction.South) * 2.0 - v_vs_h_weight) > 0) {
+				curr_weights = calcWeights();
+				grid_distance = huntkill_colored_grid(grid_size_value, curr_weights);
 			}
 		}
 
 		function update() {
 			update_grid_size_value();
+			update_weights();
 		}
-
+		function calcWeights() {
+			return new Map([
+				[Direction.South, v_vs_h_weight * 0.5],
+				[Direction.West, (1 - v_vs_h_weight) * 0.5],
+				[Direction.North, v_vs_h_weight * 0.5],
+				[Direction.East, (1 - v_vs_h_weight) * 0.5]
+			]);
+		}
 		// p5 WILL HANDLE REQUESTING ANIMATION FRAMES FROM THE BROWSER AND WIL RUN DRAW() EACH ANIMATION FROME
 		p.draw = (): void => {
 			p.background(255);
@@ -90,6 +110,13 @@
 	<input type="range" bind:value={grid_size} min="4" max="100" step="1" />
 	{grid_size}
 </label>
+<br />
+<label
+	>Vertical vs horizontal weight
+	<input type="range" bind:value={v_vs_h_weight} min="0.01" max="0.99" step="0.01" />
+	{v_vs_h_weight}
+</label>
+<br />
 <div width="100">
 	<P5 {sketch} />
 </div>
