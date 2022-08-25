@@ -7,9 +7,8 @@
 	import { Direction } from '$lib/grids/directions';
 
 	let grid_size = 15;
-	let south_weight = 0.25;
-	let west_weight = 0.25;
-	let north_weight = 0.25;
+	// Vertical vs horizontal weight
+	let v_vs_h_weight = 0.5;
 
 	let sketch: Sketch = function (p: p5) {
 		let grid_size_value: number;
@@ -78,18 +77,14 @@
 
 		function calcWeights() {
 			return new Map([
-				[Direction.South, south_weight],
-				[Direction.West, west_weight],
-				[Direction.North, north_weight],
-				[Direction.East, east_weight()]
+				[Direction.South, v_vs_h_weight * 0.5],
+				[Direction.West, (1 - v_vs_h_weight) * 0.5],
+				[Direction.North, (1 - v_vs_h_weight) * 0.5],
+				[Direction.East, v_vs_h_weight * 0.5]
 			]);
 		}
 		function update_weights() {
-			if (
-				Math.abs(curr_weights.get(Direction.South) - south_weight) > 0 ||
-				Math.abs(curr_weights.get(Direction.North) - north_weight) > 0 ||
-				Math.abs(curr_weights.get(Direction.West) - west_weight) > 0
-			) {
+			if (Math.abs(curr_weights.get(Direction.South) * 2.0 - v_vs_h_weight) > 0) {
 				curr_weights = calcWeights();
 				grid_distance = aldous_colored_grid(grid_size_value, curr_weights);
 			}
@@ -108,10 +103,6 @@
 			grid_distance.draw(p, cell_size, 0, false);
 		};
 	};
-
-	function east_weight() {
-		return 1 - (south_weight + west_weight + north_weight);
-	}
 </script>
 
 <h2>aldousbroder</h2>
@@ -125,26 +116,12 @@
 	weights must be close to 0.25 as otherwise the random walk will not necessarily finish covering
 	every part of the grid.
 </p>
-<label>
-	South
-	<input type="range" bind:value={south_weight} min="0.24" max="0.26" step="0.001" />
-	{south_weight}
+<label
+	>Vertical vs horizontal weight
+	<input type="range" bind:value={v_vs_h_weight} min="0.40" max="0.60" step="0.01" />
+	{v_vs_h_weight}
 </label>
 <br />
-<label>
-	West
-	<input type="range" bind:value={west_weight} min="0.24" max="0.26" step="0.001" />
-	{west_weight}
-</label>
-<br />
-<label>
-	North
-	<input type="range" bind:value={north_weight} min="0.24" max="0.26" step="0.001" />
-	{north_weight}
-</label>
-<br />
-East
-{east_weight()}
 
 <div width="100">
 	<P5 {sketch} />
