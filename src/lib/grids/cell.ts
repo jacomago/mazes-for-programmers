@@ -68,6 +68,12 @@ export class Cell {
 	unlinked_neighbours_directions(): Direction[] {
 		return Array.from(this.neighbours_map.keys()).filter((d) => !this.linked(this.direction(d)));
 	}
+	unvisited_neighbours_directions(): Direction[] {
+		return Array.from(this.neighbours_map.entries()).filter((d) => d[1].link_keys().size == 0).map(v => v[0]);
+	}
+	visited_neighbours_directions(): Direction[] {
+		return Array.from(this.neighbours_map.entries()).filter((d) => d[1].link_keys().size > 0).map(v => v[0]);
+	}
 	linked_neighbours_directions(): Direction[] {
 		return Array.from(this.neighbours_map.keys()).filter((d) => this.linked(this.direction(d)));
 	}
