@@ -8,7 +8,10 @@
 
 	let grid_size = 15;
 	// Vertical vs horizontal weight
-	let v_vs_h_weight = 0.5;
+	let north_weight = 0.25;
+	let west_weight = 0.25;
+	let south_weight = 0.25;
+	let east_weight = 0.25;
 
 	let sketch: Sketch = function (p: p5) {
 		let grid_size_value: number;
@@ -76,7 +79,12 @@
 		}
 
 		function update_weights() {
-			if (Math.abs(curr_weights.get(Direction.South) * 2.0 - v_vs_h_weight) > 0) {
+			if (
+				Math.abs(curr_weights.get(Direction.South) - south_weight) > 0 ||
+				Math.abs(curr_weights.get(Direction.West) - west_weight) > 0 ||
+				Math.abs(curr_weights.get(Direction.North) - north_weight) > 0 ||
+				Math.abs(curr_weights.get(Direction.East) - east_weight) > 0
+			) {
 				curr_weights = calcWeights();
 				grid_distance = huntkill_colored_grid(grid_size_value, curr_weights);
 			}
@@ -88,10 +96,10 @@
 		}
 		function calcWeights() {
 			return new Map([
-				[Direction.South, v_vs_h_weight * 0.5],
-				[Direction.West, (1 - v_vs_h_weight) * 0.5],
-				[Direction.North, v_vs_h_weight * 0.5],
-				[Direction.East, (1 - v_vs_h_weight) * 0.5]
+				[Direction.South, south_weight],
+				[Direction.West, west_weight],
+				[Direction.North, north_weight],
+				[Direction.East, east_weight]
 			]);
 		}
 		// p5 WILL HANDLE REQUESTING ANIMATION FRAMES FROM THE BROWSER AND WIL RUN DRAW() EACH ANIMATION FROME
@@ -111,11 +119,32 @@
 	{grid_size}
 </label>
 <br />
-<label
-	>Vertical vs horizontal weight
-	<input type="range" bind:value={v_vs_h_weight} min="0.01" max="0.99" step="0.01" />
-	{v_vs_h_weight}
+<label>
+	North weight
+	<input type="range" bind:value={north_weight} min="0.01" max="0.5" step="0.01" />
+	{north_weight}
 </label>
+
+<br />
+<label>
+	South weight
+	<input type="range" bind:value={south_weight} min="0.01" max="0.5" step="0.01" />
+	{south_weight}
+</label>
+
+<br />
+<label
+	>West weight
+	<input type="range" bind:value={west_weight} min="0.01" max="0.5" step="0.01" />
+	{west_weight}
+</label>
+<br />
+<label
+	>East weight
+	<input type="range" bind:value={east_weight} min="0.01" max="0.5" step="0.01" />
+	{east_weight}
+</label>
+
 <br />
 <div width="100">
 	<P5 {sketch} />

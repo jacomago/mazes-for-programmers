@@ -6,8 +6,7 @@ export class AldousBroder {
 		let cell = grid.rand_linked_cell();
 		let unvisited = grid.unlinked_cells().length - 1;
 		let count = 0;
-		while (unvisited > 0 && max > count ) {
-			
+		while (unvisited > 0 && max > count) {
 			const neighbour = cell.rand_neighbour(weights);
 			if (neighbour != undefined && neighbour.link_keys().size == 0) {
 				cell.link(neighbour);

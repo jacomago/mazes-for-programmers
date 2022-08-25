@@ -69,10 +69,14 @@ export class Cell {
 		return Array.from(this.neighbours_map.keys()).filter((d) => !this.linked(this.direction(d)));
 	}
 	unvisited_neighbours_directions(): Direction[] {
-		return Array.from(this.neighbours_map.entries()).filter((d) => d[1].link_keys().size == 0).map(v => v[0]);
+		return Array.from(this.neighbours_map.entries())
+			.filter((d) => d[1].link_keys().size == 0)
+			.map((v) => v[0]);
 	}
 	visited_neighbours_directions(): Direction[] {
-		return Array.from(this.neighbours_map.entries()).filter((d) => d[1].link_keys().size > 0).map(v => v[0]);
+		return Array.from(this.neighbours_map.entries())
+			.filter((d) => d[1].link_keys().size > 0)
+			.map((v) => v[0]);
 	}
 	linked_neighbours_directions(): Direction[] {
 		return Array.from(this.neighbours_map.keys()).filter((d) => this.linked(this.direction(d)));
@@ -92,7 +96,7 @@ export class Cell {
 
 		let min = 0;
 		for (const d of neighbour_keys) {
-			const val = Cell.weight(d, weights) ;
+			const val = Cell.weight(d, weights);
 			const max = min + val;
 			if (max > r && r >= min) {
 				return this.neighbours_map.get(d);
