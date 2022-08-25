@@ -79,8 +79,8 @@
 			return new Map([
 				[Direction.South, v_vs_h_weight * 0.5],
 				[Direction.West, (1 - v_vs_h_weight) * 0.5],
-				[Direction.North, (1 - v_vs_h_weight) * 0.5],
-				[Direction.East, v_vs_h_weight * 0.5]
+				[Direction.North, v_vs_h_weight * 0.5],
+				[Direction.East, (1 - v_vs_h_weight) * 0.5]
 			]);
 		}
 		function update_weights() {
@@ -118,7 +118,7 @@
 </p>
 <label
 	>Vertical vs horizontal weight
-	<input type="range" bind:value={v_vs_h_weight} min="0.40" max="0.60" step="0.01" />
+	<input type="range" bind:value={v_vs_h_weight} min="0.01" max="0.99" step="0.01" />
 	{v_vs_h_weight}
 </label>
 <br />
