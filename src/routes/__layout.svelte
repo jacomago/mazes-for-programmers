@@ -1,10 +1,13 @@
-<nav>
-	<a href="/">Home</a>
-	<a href="/chap2">Chap2</a>
-	<a href="/chap3">Chap3</a>
-	<a href="/chap4">Chap4</a>
-	<a href="/chap5">Chap5</a>
-	<a href="/about">About</a>
-</nav>
+<script>
+	import Navbar from '../components/Navbar.svelte';
 
-<slot />
+	import '../app.css';
+</script>
+
+<div id="app" class="flex flex-col min-h-screen font-mono">
+	<Navbar />
+	<br />
+	<div class="self-center">
+		<slot />
+	</div>
+</div>
