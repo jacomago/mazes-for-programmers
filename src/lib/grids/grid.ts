@@ -33,13 +33,12 @@ export class Grid {
 	}
 
 	configure_cells() {
-		for (let row = 0; row < this.rows; row++) {
-			for (let col = 0; col < this.columns; col++) {
-				this.grid[row][col].setDirection(Direction.North, this.get(row - 1, col));
-				this.grid[row][col].setDirection(Direction.South, this.get(row + 1, col));
-				this.grid[row][col].setDirection(Direction.West, this.get(row, col - 1));
-				this.grid[row][col].setDirection(Direction.East, this.get(row, col + 1));
-			}
+		const cells = this.cells();
+		for (const cell of cells) {
+			cell.setDirection(Direction.North, this.get(cell.row - 1, cell.column));
+			cell.setDirection(Direction.South, this.get(cell.row + 1, cell.column));
+			cell.setDirection(Direction.West, this.get(cell.row, cell.column - 1));
+			cell.setDirection(Direction.East, this.get(cell.row, cell.column + 1));
 		}
 	}
 

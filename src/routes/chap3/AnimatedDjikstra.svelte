@@ -40,7 +40,7 @@
 		p.setup = (): void => {
 			console.log('🚀 - Setup initialized - P5 is running');
 
-			p.createCanvas(p.displayWidth, p.windowHeight);
+			p.createCanvas(p.windowWidth, p.windowHeight);
 			p.rectMode(p.CENTER).noFill().frameRate(30);
 			// NUMBER OF SHAPES SLIDER
 
@@ -67,7 +67,7 @@
 			cell_size = (p.windowWidth * 0.9 - border) / grid_size;
 		}
 		p.windowResized = (): void => {
-			p.resizeCanvas(p.displayWidth, p.windowHeight);
+			p.resizeCanvas(p.windowWidth, p.windowHeight);
 			calcCellSize(grid_size_value);
 		};
 

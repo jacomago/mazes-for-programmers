@@ -44,11 +44,12 @@
 		};
 
 		p.mousePressed = (): void => {
-			console.log('mouse pressed ' + p.mouseX + ' ' + p.mouseY);
+			console.log('mouse pressed ' + p.mouseX + ', ' + p.mouseY);
 			let column = Math.floor(p.mouseX / cell_size) - 1;
 			let row = Math.floor(p.mouseY / cell_size) - 1;
-			console.log('mouse pressed at grid point' + row + ' ' + column);
-			mask.setUp(row, column);
+			console.log('mouse pressed at grid point: ' + row + ', ' + column);
+			if (0 > column || 0 > row || row > grid_size_value || column > grid_size_value) return;
+			mask.flip(row, column);
 			grid = mask_grid(grid_size_value, curr_weights, mask);
 		};
 
@@ -61,7 +62,7 @@
 		}
 
 		p.windowResized = (): void => {
-			p.resizeCanvas(p.displayWidth, p.windowWidth);
+			p.resizeCanvas(p.windowWidth, p.windowWidth);
 			calcCellSize(grid_size_value);
 		};
 
@@ -144,6 +145,6 @@
 	<input type="range" bind:value={east_weight} min="0.01" max="0.5" step="0.01" />
 	{east_weight}
 </label>
-<div width="100">
+<div width="50">
 	<P5 {sketch} />
 </div>
