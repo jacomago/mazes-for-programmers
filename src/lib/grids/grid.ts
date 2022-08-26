@@ -9,7 +9,7 @@ export class Grid {
 	columns: number;
 	grid: Cell[][];
 
-	static prepare_grid(rows: number, columns: number): Cell[][] {
+	prepare_grid(rows: number, columns: number): Cell[][] {
 		const boxes: Cell[][] = [];
 		for (let row = 0; row < rows; row++) {
 			boxes[row] = [];
@@ -42,10 +42,15 @@ export class Grid {
 			}
 		}
 	}
+
 	constructor(rows: number, columns: number) {
 		this.rows = rows;
 		this.columns = columns;
-		this.grid = Grid.prepare_grid(rows, columns);
+		this.grid = [];
+	}
+
+	init() {
+		this.grid = this.prepare_grid(this.rows, this.columns);
 		this.configure_cells();
 	}
 
@@ -78,22 +83,11 @@ export class Grid {
 	}
 
 	unlinked_cells() {
-		const cells: Cell[] = [];
-		for (let row = 0; row < this.rows; row++) {
-			for (let col = 0; col < this.columns; col++) {
-				if (this.grid[row][col].link_keys().size == 0) cells.push(this.grid[row][col]);
-			}
-		}
-		return cells;
+		return this.cells().filter(cell => cell.link_keys().size == 0);
 	}
+
 	linked_cells() {
-		const cells: Cell[] = [];
-		for (let row = 0; row < this.rows; row++) {
-			for (let col = 0; col < this.columns; col++) {
-				if (this.grid[row][col].link_keys().size != 0) cells.push(this.grid[row][col]);
-			}
-		}
-		return cells;
+		return this.cells().filter(cell => cell.link_keys().size != 0);
 	}
 
 	cell_rows() {
@@ -117,6 +111,7 @@ export class Grid {
 			);
 		}
 	}
+	
 	draw_graph(p: p5, cell_size: number, color: number) {
 		const cells = this.cells();
 		for (let index = 0; index < cells.length; index++) {

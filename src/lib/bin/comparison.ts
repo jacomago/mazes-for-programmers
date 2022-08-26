@@ -28,6 +28,7 @@ export function comparisons(
 		alg_results.set(Property.Cross, 0.0);
 		for (let i = 0; attempts > i; i++) {
 			let grid = new Grid(grid_size, grid_size);
+			grid.init();
 			grid = alg.on(grid);
 			alg_results.set(
 				Property.Deadends,

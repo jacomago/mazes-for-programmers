@@ -4,6 +4,7 @@ import { BinaryAldous } from '$lib/generators/binaryaldours';
 
 export function binary_aldous_setup(grid_size: number, amount: number): DistanceGrid {
 	const grid = new ColoredGrid(grid_size, grid_size);
+	grid.init();
 	BinaryAldous.on(grid, amount);
 	const origin_x = Math.floor(grid_size / 2);
 	const origin_y = Math.floor(grid_size / 2);

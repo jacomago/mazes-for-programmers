@@ -8,6 +8,7 @@ export function wilson_colored_grid(
 	weights: Map<Direction, number>
 ): DistanceGrid {
 	const grid = new ColoredGrid(grid_size, grid_size);
+	grid.init();
 	Wilson.on(grid, weights);
 	const origin_x = Math.floor(grid_size / 2);
 	const origin_y = Math.floor(grid_size / 2);

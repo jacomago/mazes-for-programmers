@@ -3,6 +3,7 @@ import { Sidewinder } from '$lib/generators/sidewinder';
 
 export function longest_path_grid(grid_size: number): DistanceGrid {
 	const grid = new DistanceGrid(grid_size, grid_size);
+	grid.init();
 	Sidewinder.on(grid);
 	const start = grid.get(0, 0);
 	const distances = start.distances();
