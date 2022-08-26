@@ -7,6 +7,7 @@
 	import LongestPath from './LongestPath.svelte';
 </script>
 
+<h1>Chapter 3</h1>
 <Clickable />
 <AnimatedDjikstra />
 <Colored />

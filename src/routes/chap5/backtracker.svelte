@@ -142,6 +142,6 @@
 	<input type="range" bind:value={east_weight} min="0.01" max="0.5" step="0.01" />
 	{east_weight}
 </label>
-<div width="100">
+<div class="sketch-container" width="100">
 	<P5 {sketch} />
 </div>

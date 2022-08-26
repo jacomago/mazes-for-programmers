@@ -82,11 +82,11 @@ export class Grid {
 	}
 
 	unlinked_cells() {
-		return this.cells().filter(cell => cell.link_keys().size == 0);
+		return this.cells().filter((cell) => cell.link_keys().size == 0);
 	}
 
 	linked_cells() {
-		return this.cells().filter(cell => cell.link_keys().size != 0);
+		return this.cells().filter((cell) => cell.link_keys().size != 0);
 	}
 
 	cell_rows() {
@@ -110,7 +110,7 @@ export class Grid {
 			);
 		}
 	}
-	
+
 	draw_graph(p: p5, cell_size: number, color: number) {
 		const cells = this.cells();
 		for (let index = 0; index < cells.length; index++) {

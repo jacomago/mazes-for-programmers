@@ -3,13 +3,17 @@
 @tailwind utilities;
 
 h1 {
-    @apply text-xl p-1;
+	@apply text-xl p-1;
 }
 
 h2 {
-    @apply text-lg mb-5;
+	@apply text-lg mb-5;
 }
 
 label {
-    @apply text-sm;
+	@apply text-sm;
+}
+
+div.sketch-container {
+	@apply p-2;
 }

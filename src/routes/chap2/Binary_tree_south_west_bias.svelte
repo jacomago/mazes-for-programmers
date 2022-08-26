@@ -97,6 +97,6 @@
 	<input type="range" bind:value={south_weight} min="0" max="1" step="0.01" />
 	{south_weight}
 </label>
-<div width="100">
+<div class="sketch-container" width="100">
 	<P5 {sketch} />
 </div>

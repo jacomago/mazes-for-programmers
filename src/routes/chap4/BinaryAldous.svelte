@@ -94,6 +94,6 @@
 	<input type="range" bind:value={amount} min="4" max={grid_size * grid_size} step="1" />
 	{amount}
 </label>
-<div width="100">
+<div class="sketch-container" width="100">
 	<P5 {sketch} />
 </div>

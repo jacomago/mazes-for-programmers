@@ -17,7 +17,7 @@
 	<input type="range" bind:value={attempts} min="4" max="100" step="1" />
 	{attempts}
 </label>
-<div width="100">
+<div class="sketch-container" width="100">
 	{#each Array.from(comparisons(grid_size, attempts).entries()) as pair}
 		<h3>{pair[0]}:</h3>
 		{#each Array.from(pair[1].entries()) as res}

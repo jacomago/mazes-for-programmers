@@ -4,8 +4,8 @@ import { Mask, MaskGrid } from '$lib/grids/mask';
 
 export function mask_grid(
 	grid_size: number,
-    weights: Map<Direction, number>,
-    mask: Mask
+	weights: Map<Direction, number>,
+	mask: Mask
 ): MaskGrid {
 	const grid = new MaskGrid(grid_size, grid_size, mask);
 	grid.init();

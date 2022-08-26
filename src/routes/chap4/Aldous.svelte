@@ -117,6 +117,6 @@
 </label>
 <br />
 
-<div width="100">
+<div class="sketch-container" width="100">
 	<P5 {sketch} />
 </div>
