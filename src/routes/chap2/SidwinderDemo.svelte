@@ -14,14 +14,11 @@
 		p.setup = (): void => {
 			console.log('🚀 - Setup initialized - P5 is running');
 
-			p.createCanvas(p.windowWidth, p.windowWidth);
-			p.rectMode(p.CENTER).noFill().frameRate(30);
-			// NUMBER OF SHAPES SLIDER
-
 			// Create a button for saving canvas image
 			let saveImageBtn = p.createButton('Save Canvas');
-			saveImageBtn.position(290, 20);
 			saveImageBtn.mousePressed(saveAsCanvas);
+			p.createCanvas(p.windowWidth, p.windowWidth);
+			p.rectMode(p.CENTER).noFill().frameRate(30);
 
 			grid_size_value = grid_size;
 			border = 40;

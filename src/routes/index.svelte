@@ -10,7 +10,6 @@
 	let west_weight = 0.25;
 	let south_weight = 0.25;
 	let east_weight = 0.25;
-
 	let sketch: Sketch = function (p: p5) {
 		let grid_size_value: number;
 		let border: number;
@@ -22,14 +21,12 @@
 		p.setup = (): void => {
 			console.log('🚀 - Setup initialized - P5 is running');
 
+			// Create a button for saving canvas image
+			let saveImageBtn = p.createButton('Save Canvas');
+			saveImageBtn.mousePressed(saveAsCanvas);
 			p.createCanvas(p.windowWidth, p.windowWidth);
 			p.rectMode(p.CENTER).noFill().frameRate(30);
 			// NUMBER OF SHAPES SLIDER
-
-			// Create a button for saving canvas image
-			let saveImageBtn = p.createButton('Save Canvas');
-			saveImageBtn.position(290, 20, 'relative');
-			saveImageBtn.mousePressed(saveAsCanvas);
 
 			grid_size_value = grid_size;
 			border = 40;
@@ -145,6 +142,8 @@
 	<input type="range" bind:value={east_weight} min="0.01" max="0.5" step="0.01" />
 	{east_weight}
 </label>
-<div width="50">
+<br />
+
+<div class="sketch" width="50">
 	<P5 {sketch} />
 </div>
