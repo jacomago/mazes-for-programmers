@@ -12,6 +12,7 @@
 
 	function init_grid(grid_size: number): ColoredGrid {
 		const grid = new ColoredGrid(grid_size, grid_size);
+		grid.init();
 		Sidewinder.on(grid);
 		let start = grid.get(0, 0);
 		grid.set_distances(new Distances(start));

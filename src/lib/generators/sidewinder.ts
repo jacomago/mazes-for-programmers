@@ -4,6 +4,8 @@ import type { Grid } from '../grids/grid';
 
 export class Sidewinder {
 	static on(grid: Grid) {
+		console.log('grid is ' + grid);
+		
 		const cells = grid.cell_rows();
 		for (let cell_row_index = 0; cell_row_index < cells.length; cell_row_index++) {
 			const row = cells[cell_row_index];
